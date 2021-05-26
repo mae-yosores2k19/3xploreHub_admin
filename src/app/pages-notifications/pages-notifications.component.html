@@ -1,0 +1,11 @@
+<mat-toolbar class="container">
+    <mat-toolbar-row class="status">
+        <div class="statlabel">
+            <button mat-button [class.focused_pending]="adminService.currentPath == 'pendingPages'" (click)="goTo('pendingPages')" id="pending">Pending Pages Notification</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button mat-button [class.focused_online]="adminService.currentPath == 'onlinePages'" (click)="goTo('onlinePages')" id="online">Online Pages Notification</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div class="cont">
+    <router-outlet></router-outlet>
+</div>

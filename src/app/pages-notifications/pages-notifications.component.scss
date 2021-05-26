@@ -1,0 +1,79 @@
+.status {
+    width: 100%;
+    background: #eff4f757;
+    justify-content: center;
+    text-align: center;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+}
+
+h1 {
+    margin-top: 0px;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #0e4a81;
+    font-size: 20px;
+    background: white;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+}
+
+.focused_pending {
+    background-color: #a1d0e7 !important;
+}
+
+.focused_online {
+    background-color: rgb(180, 218, 218) !important;
+}
+
+#online,
+#pending {
+    font-size: 18px;
+    padding-bottom: 1%;
+    padding-top: 1%;
+}
+
+#pending {
+    color: #0a9aef;
+}
+
+#online {
+    color: rgb(3, 124, 124);
+}
+
+.service {
+    color: white;
+    font-weight: inherit;
+}
+
+.mat-raised-button {
+    background: rgb(0, 153, 255);
+    color: white;
+    margin-left: 13%;
+}
+
+.badge,
+.button {
+    margin: 4%;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    top: 0;
+
+}
+
+.focused_notif {
+    background-color: 3px dodgerblue !important;
+}
+
+.cont {
+    padding:10px;
+    padding-bottom: 100px;
+    padding-top: 0;
+}
