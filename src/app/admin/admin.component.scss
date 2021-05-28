@@ -23,6 +23,12 @@
         font-size: 20px;
         position: relative;
     }
+    .title {
+        color:rgb(0, 104, 173);
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 20px;
+    }
     .tab {
         margin-left: 15vh;
         display: flex;
@@ -48,7 +54,7 @@
         margin:10px;
     }
     .mat-stroked-button {
-        letter-spacing: 2px !important;
+        // letter-spacing: 2px !important;
         border:none;
         margin-left: 15px;
     }
