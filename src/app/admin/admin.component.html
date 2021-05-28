@@ -10,7 +10,7 @@
                         Bookings</button>
                 <button [class.activeTab]="currentPath.includes('/pageToApprove')" (click)="goTo('pageToApprove')"
                         mat-stroked-button matBadgePosition="after" [matBadge]="counter2" matBadgeColor="accent" class="appBtn">
-                        <span class="material-icons">crop_original</span>
+                        <span class="material-icons" style="font-size: 17px">filter_none</span>
                         Pages</button>
                 <button [class.activeTab]="currentPath.includes('/notif')" [matBadge]="notificationCount" (click)="goTo('notif')" mat-stroked-button
                         matBadgePosition="after" matBadgeColor="accent" class="appBtn">
