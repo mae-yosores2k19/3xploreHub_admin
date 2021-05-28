@@ -1,11 +1,14 @@
 <div class="toolbar">
+        <img class="logo" src="../../assets/logo.png" alt="">
         <span>Explorehub</span>
         <div class="tab">
-            <button  (click)="goTo('bookingNotif')" mat-stroked-button [matBadge]="counter1" matBadgePosition="after" matBadgeColor="accent" class="badge">Bookings</button>
-            <button (click)="goTo('pageToApprove')" mat-stroked-button [matBadge]="counter2" matBadgePosition="after" matBadgeColor="accent" class="badge">Pages</button>
-            <button  (click)="goTo('notif')" mat-stroked-button [matBadge]="notificationCount" matBadgePosition="after" matBadgeColor="accent" class="badge">Notifications</button>
-            <p class="logout" (click)="logOut()">Logout <span
-                class="material-icons">logout</span></p>
+                <button (click)="goTo('bookingNotif')" mat-stroked-button [matBadge]="counter1" matBadgePosition="after"
+                        matBadgeColor="accent" class="badge">Bookings</button>
+                <button (click)="goTo('pageToApprove')" mat-stroked-button [matBadge]="counter2" matBadgePosition="after"
+                        matBadgeColor="accent" class="badge">Pages</button>
+                <button (click)="goTo('notif')" mat-stroked-button [matBadge]="notificationCount" matBadgePosition="after"
+                        matBadgeColor="accent" class="badge">Notifications</button>
+                <p class="logout" (click)="logOut()">Logout <span class="material-icons">logout</span></p>
         </div>
 </div>
 <router-outlet></router-outlet>
