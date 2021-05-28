@@ -19,13 +19,11 @@ export class NotificationHandlerComponent {
     const token = localStorage.getItem("token")
     const user = jwt_decode(token);
     this.user = user;
-    console.log(this.user)
     this.socket.connect();
     this.adminService.socket = this.socket;
     this.adminService.user = this.user
     this.adminService.notify = this.notify
     this.socket.fromEvent('send-notification').subscribe((data: any) => {
-      console.log(data);
       if (data.receiver.includes("admin") || data.receiver.includes(this.adminService.user._id)) {
         // if (data.user._id != this.user._id) {
         //   // this.showToast(data.message);

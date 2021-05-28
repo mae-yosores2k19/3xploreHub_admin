@@ -20,6 +20,8 @@ export class AdminService {
   public updatePendingPagesCount: EventEmitter<any> = new EventEmitter();
   public updateNotificationCount: EventEmitter<any> = new EventEmitter();
   public processingTimeEnded: EventEmitter<any> = new EventEmitter();
+  public loggedInAdmin: EventEmitter<any> = new EventEmitter();
+  public loggedOutAdmin: EventEmitter<any> = new EventEmitter();
   public changeTab: EventEmitter<any> = new EventEmitter();
   public viewConversation: EventEmitter<any> = new EventEmitter();
 

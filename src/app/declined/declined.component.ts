@@ -48,10 +48,8 @@ export class DeclinedComponent implements OnInit {
       this.populateTable()
       this.route.queryParams.subscribe(
         (params: any) => {
-          console.log(params)
           if (params && params.bookingId) {
             this.bookingAccount.forEach(booking => {
-              console.log(booking._id == params.bookingId)
               if (booking._id == params.bookingId) {
                 this.openModal(booking);
               }

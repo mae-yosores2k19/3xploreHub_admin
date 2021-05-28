@@ -52,7 +52,6 @@ export class ConversationComponent implements OnInit {
             this.messages = this.conversation.messages
             this.formatData()
           }
-    console.log("test: ",this.messagesContainer.nativeElement.scrollTop)
 
           setTimeout(() => {
             this.scrollToBottom()
@@ -68,7 +67,6 @@ export class ConversationComponent implements OnInit {
             this.messages = this.conversation.messages
             this.formatData()
           }
-    console.log("test: ",this.messagesContainer.nativeElement.scrollTop)
 
           setTimeout(() => {
             this.scrollToBottom()
@@ -111,7 +109,6 @@ export class ConversationComponent implements OnInit {
 
 
   scrollToBottom(): void {
-    console.log(this.messagesContainer.nativeElement.scrollHeight)
     try {
       this.messagesContainer.nativeElement.scrollTop = this.messagesContainer.nativeElement.scrollTop + this.messagesContainer.nativeElement.scrollHeight;
     } catch (err) {

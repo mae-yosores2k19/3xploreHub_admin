@@ -39,7 +39,6 @@ export class PendingPagesNotificationComponent implements OnInit {
       this.pages = data
       this.displayCurrentPage(this.pages)
       this.pendingCount = this.pages.length
-      console.log("Pages: ",this.pages);
     })
   }
 

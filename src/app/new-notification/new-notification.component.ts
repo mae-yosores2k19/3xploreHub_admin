@@ -61,7 +61,6 @@ export class NewNotificationComponent implements OnInit {
         (params: any) => {
           if (params && params.bookingId) {
             this.bookingAccount.forEach(booking => {
-              console.log(booking._id == params.bookingId)
               if (booking._id == params.bookingId) {
                 if (!doNotOpen) this.openModal(booking);
               }

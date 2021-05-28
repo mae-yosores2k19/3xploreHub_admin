@@ -70,6 +70,7 @@ export class AdminComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.adminService.deleteToken();
+        this.adminService.loggedOutAdmin.emit()
         this.router.navigate(['login']);
       }
     })

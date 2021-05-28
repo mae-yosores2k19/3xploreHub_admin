@@ -37,7 +37,6 @@ export class DetailsComponent implements OnInit {
 
     this.booking = this.data;
     this.bookingData = this.data.bookingInfo;
-    console.log(this.data, 'booking');
 
     // this.data.selectedServices[0].data.defaultName.splice("quantity",1)
     this.selectedService = this.data.selectedServices;
@@ -46,7 +45,6 @@ export class DetailsComponent implements OnInit {
     //   comp.service.data = comp.service.data.filter(data => data.defaultName != "quantity")
     //   return comp
     // })
-    console.log(this.bookingData);
 
     this.modalContainerHeight = window.innerHeight - 200;
     const pageNameComp = this.getDefaultValue("pageName")

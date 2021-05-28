@@ -46,7 +46,6 @@ export class PendingComponent implements OnInit {
       this.populateTable()
       this.route.queryParams.subscribe(
         (params: any) => {
-          console.log(params)
           if (params && params.bookingId) {
             this.bookingAccount.forEach(booking => {
               if (booking._id == params.bookingId) {

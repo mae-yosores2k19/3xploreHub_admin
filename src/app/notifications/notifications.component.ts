@@ -48,7 +48,6 @@ export class NotificationsComponent implements OnInit {
           return notif
         })
         this.notifications = notifications;
-        console.log(this.notifications)
         this.loading = false
       },
       error => {

@@ -34,7 +34,6 @@ export class NotifDetailsComponent implements OnInit {
     this.modalContainerHeight = window.innerHeight - 200;
     this.pagesData = Array.of(this.data)
     this.services = this.data.services
-    console.log("Services: ", this.services);
 
 
 
@@ -59,7 +58,6 @@ export class NotifDetailsComponent implements OnInit {
       (params: any) => {
 
         if (params.pageId) {
-          console.log(params.pageId)
           this.tabIndex = 2;
         }
       }

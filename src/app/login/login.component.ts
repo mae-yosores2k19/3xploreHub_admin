@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
       this.show = true;
       if (partialDataHandler.status != false) {
         this.authService.setToken(user.token);
+        this.authService.loggedInAdmin.emit()
         this.router.navigate(['admin/bookingNotif']);
       } else {
         // if(!this.alert ){

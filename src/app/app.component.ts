@@ -31,6 +31,16 @@ export class AppComponent implements OnInit ,AfterViewInit, OnDestroy {
         }, 9000);
       }
     )
+
+    this.adminService.loggedInAdmin.subscribe(data => {
+      if (this.notifHandler) {
+        this.notifHandler.init()
+      }
+    })
+
+    this.adminService.loggedOutAdmin.subscribe(data => {
+      this.notifHandler.disconnect()
+    })
   }
 
   ngAfterViewInit() {

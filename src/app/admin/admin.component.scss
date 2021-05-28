@@ -42,5 +42,11 @@
     .logo{
         width:40px;
         height: auto;
+        margin-right: 15px;
+    }
+    .logoAndTitle{
+        display: flex;
+        padding:10px;
+        align-items: center;
     }
 }
