@@ -22,6 +22,7 @@ export class NotificationsComponent implements OnInit {
   ngOnInit() {
     this.show = true
     this.getNotifications();
+    this.mainService.changeMainTab.emit("/notif")
     this.mainService.notification.subscribe(
       (data: any) => {
         this.getNotifications(true)

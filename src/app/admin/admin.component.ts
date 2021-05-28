@@ -12,6 +12,7 @@ export class AdminComponent implements OnInit {
   public counter1: any
   public counter2: any
   public bookings: any;
+  public currentPath: string;
   public notificationCount: any;
   public pages: any
   constructor(public adminService: AdminService,
@@ -21,7 +22,12 @@ export class AdminComponent implements OnInit {
     this.getPendingBookingsCount()
     this.getPendingPagesCount()
     this.getNotificationCount()
-
+  
+    this.currentPath = this.router.url
+    console.log(this.currentPath)
+    this.adminService.changeMainTab.subscribe(tab => {
+      this.currentPath = tab
+    })
     this.adminService.notification.subscribe((data: any) => {
       if (data.type == "page-submission") {
         this.getPendingPagesCount()
@@ -76,6 +82,7 @@ export class AdminComponent implements OnInit {
     })
   }
   goTo(clicked) {
+    this.currentPath = "/"+clicked
     this.adminService.currentPath = clicked
     this.router.navigate(["/admin/" + clicked])
   }

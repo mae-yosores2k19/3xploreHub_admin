@@ -23,26 +23,36 @@ h1 {
 }
 
 .focused_pending {
-    background-color: #a1d0e7 !important;
+    color: #0079be !important;
+    border-bottom: 3px solid #5baad1 !important;
 }
 
 .focused_online {
-    background-color: rgb(180, 218, 218) !important;
+    color: rgb(3, 124, 124) !important;
+    border-bottom: 3px solid rgb(67, 177, 177) !important;
 }
 
 #online,
 #pending {
-    font-size: 18px;
-    padding-bottom: 1%;
-    padding-top: 1%;
+    font-size: 16px;
+    // padding: 10px 30px;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+
+    span {
+        font-size: 20px;
+        margin-right: 5px;
+        margin-bottom: 2px;
+    }
 }
 
 #pending {
-    color: #0a9aef;
+    color: rgba(10, 154, 239, .6);
 }
 
 #online {
-    color: rgb(3, 124, 124);
+    color: rgba(3, 124, 124, .6);
 }
 
 .service {

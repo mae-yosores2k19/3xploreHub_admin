@@ -18,7 +18,9 @@ export class BookingNotificationComponent implements OnInit {
   keyWord: string = '';
   constructor(public adminService: AdminService, private router: Router, private route: ActivatedRoute) { }
   ngOnInit(): void {
-    this.adminService.currentPath = this.router.url.split("/").reverse()[0]
+    this.adminService.changeMainTab.emit("/bookingNotif")
+    const path = this.router.url.split("/").reverse()[0]
+    this.adminService.currentPath = path == "bookingNotif"? "new": path
     if (this.adminService.currentPath.includes("?")) this.adminService.currentPath = this.adminService.currentPath.split("?")[0]
     //for Badge Number
     this.adminService.getAllBookings("Pending").subscribe((data)=>{

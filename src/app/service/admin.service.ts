@@ -19,6 +19,7 @@ export class AdminService {
   public updatePendingBookingCount: EventEmitter<any> = new EventEmitter();
   public updatePendingPagesCount: EventEmitter<any> = new EventEmitter();
   public updateNotificationCount: EventEmitter<any> = new EventEmitter();
+  public changeMainTab: EventEmitter<any> = new EventEmitter();
   public processingTimeEnded: EventEmitter<any> = new EventEmitter();
   public loggedInAdmin: EventEmitter<any> = new EventEmitter();
   public loggedOutAdmin: EventEmitter<any> = new EventEmitter();

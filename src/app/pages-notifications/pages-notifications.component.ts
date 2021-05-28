@@ -14,6 +14,7 @@ export class PagesNotificationsComponent implements OnInit {
   public processData: any;
   public bookings: any;
   public onlineData: any
+  public currentPath: string;
   public counter1:any
   public counter2:any
 
@@ -36,8 +37,14 @@ export class PagesNotificationsComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    this.adminService.currentPath = this.router.url.split("/").reverse()[0]
-    if (this.adminService.currentPath.includes("?")) this.adminService.currentPath = this.adminService.currentPath.split("?")[0]
+    const path = this.router.url.split("/").reverse()[0]
+    this.currentPath = path == "pageToApprove"? "pendingPages": path
+    if (this.currentPath.includes("?")) this.currentPath = this.currentPath.split("?")[0]
+    
+    
+    this.adminService.changeMainTab.emit("/pageToApprove")
+
+  
     this.adminService.getAllBookings("Pending").subscribe((data)=>{
       this.bookings = data
       this.counter1 = this.bookings.length
@@ -65,7 +72,7 @@ export class PagesNotificationsComponent implements OnInit {
 
   }
   goTo(clicked) {
-    this.adminService.currentPath = clicked
+    this.currentPath = clicked
     this.router.navigate(["/admin/pageToApprove/" + clicked])
   }
 
