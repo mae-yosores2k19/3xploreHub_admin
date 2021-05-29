@@ -182,7 +182,7 @@
 
 
         </div>
-        <div class="modalFooter" *ngIf="pagesData[0].status === 'Pending'">
+        <!-- <div class="modalFooter" *ngIf="pagesData[0].status === 'Pending'">
             <div class="modal-footer" align="start" *ngFor="let item of pagesData">
 
                 <button mat-button mat-dialog-close id="modal-cancel-button"> <span class="material-icons">keyboard_arrow_left</span>Back</button>
@@ -191,8 +191,8 @@
                     <span class="material-icons">sync</span>
                 </button>
             </div>
-        </div>
-        <div class="modalFooter" *ngIf="pagesData[0].status === 'Processing'">
+        </div> -->
+        <div class="modalFooter" *ngIf="pagesData[0].status === 'Pending'">
             <div class="modal-footer" align="start" *ngFor="let onlineItem of pagesData">
                 <button mat-button mat-dialog-close id="modal-cancel-button"> <span class="material-icons">keyboard_arrow_left</span>Close</button>
                 <button mat-button id="approve" (click)="toApprove(onlineItem)">Approve
@@ -212,7 +212,7 @@
                         restore</span></button>
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="getPendingPage(each)">Pending</button>
-                    <button mat-menu-item (click)="getProcessPage(each)">Processing</button>
+                    <!-- <button mat-menu-item (click)="getProcessPage(each)">Processing</button> -->
 
                 </mat-menu>
             </div>
