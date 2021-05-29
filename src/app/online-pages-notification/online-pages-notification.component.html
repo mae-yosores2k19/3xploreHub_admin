@@ -23,7 +23,7 @@
                     <h3>{{ detail.data.text }}</h3>
                 </div>
                 <div *ngIf="detail.data.defaultName=='barangay'||detail.data.defaultName=='municipality'||detail.data.defaultName=='province'">
-                    <p>{{ detail.data.label }}:<span>{{ detail.data.text }}</span></p>
+                    <p>{{ detail.data.label }}:&nbsp;&nbsp;<span>{{ detail.data.text }}</span></p>
                 </div>
             </div>
             <p>Type: <span>{{ approve.pageType == "tourist_spot"? "Tourist Spot": "Service" }}</span> </p>
