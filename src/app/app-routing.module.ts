@@ -14,6 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import {AdminComponent} from './admin/admin.component'
 import { DetailsComponent } from './details/details.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
     children: [
       { path: '', component: BookingNotificationComponent },
       { path: 'notif', component: NotificationsComponent },
+      { path: 'reports', component: ReportsComponent },
       {
         path: 'bookingNotif', component: BookingNotificationComponent,
         children: [

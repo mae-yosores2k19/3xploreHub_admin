@@ -4,6 +4,10 @@
                 <span class="title">Explorehub</span>
         </div>
         <div class="tab">
+                <button [class.activeTab]="currentPath.includes('/reports')" [matBadge]="notificationCount" (click)="goTo('reports')" mat-stroked-button
+                        matBadgePosition="after" matBadgeColor="accent" class="appBtn">
+                        <span class="material-icons">notifications_none</span>
+                        Reports</button>
                 <button [class.activeTab]="currentPath.includes('/bookingNotif')" (click)="goTo('bookingNotif')"
                         mat-stroked-button matBadgePosition="after" [matBadge]="counter1" matBadgeColor="accent" class="appBtn">
                         <span class="material-icons">list</span>
@@ -16,6 +20,7 @@
                         matBadgePosition="after" matBadgeColor="accent" class="appBtn">
                         <span class="material-icons">notifications_none</span>
                         Notifications</button>
+             
                 <p class="logout" (click)="logOut()">
                         <span class="material-icons" style="padding-right: 8px">logout</span>
                         Logout </p>
