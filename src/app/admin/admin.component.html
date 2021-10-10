@@ -6,7 +6,7 @@
         <div class="tab">
                 <button [class.activeTab]="currentPath.includes('/reports')" [matBadge]="notificationCount" (click)="goTo('reports')" mat-stroked-button
                         matBadgePosition="after" matBadgeColor="accent" class="appBtn">
-                        <span class="material-icons">notifications_none</span>
+                        <span class="material-icons">bar_chart</span>
                         Reports</button>
                 <button [class.activeTab]="currentPath.includes('/bookingNotif')" (click)="goTo('bookingNotif')"
                         mat-stroked-button matBadgePosition="after" [matBadge]="counter1" matBadgeColor="accent" class="appBtn">

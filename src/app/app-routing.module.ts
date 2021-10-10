@@ -15,6 +15,9 @@ import { LoginComponent } from './login/login.component';
 import {AdminComponent} from './admin/admin.component'
 import { DetailsComponent } from './details/details.component';
 import { ReportsComponent } from './reports/reports.component';
+import { PagesListComponent } from './pages-list/pages-list.component';
+import { PageStatsComponent } from './page-stats/page-stats.component';
+import { OverallStatsComponent } from './overall-stats/overall-stats.component';
 
 
 const routes: Routes = [
@@ -26,7 +29,13 @@ const routes: Routes = [
     children: [
       { path: '', component: BookingNotificationComponent },
       { path: 'notif', component: NotificationsComponent },
-      { path: 'reports', component: ReportsComponent },
+      { path: 'reports', component: ReportsComponent, 
+        children: [
+          { path: '', component: PagesListComponent },
+          { path: 'pageStats', component: PageStatsComponent },
+          { path: 'overallStats', component: OverallStatsComponent },
+        ], canActivate: [AuthGuard],
+      },
       {
         path: 'bookingNotif', component: BookingNotificationComponent,
         children: [

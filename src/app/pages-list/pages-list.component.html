@@ -1,0 +1,55 @@
+<div class="wrapper">
+    <button class="appBtn">Overall Stats</button>
+    <div class="settingsCol">
+        <label>Filter By:</label>&nbsp;
+        <mat-form-field>
+            <!-- <mat-label>Filter By:</mat-label> -->
+            <mat-select placeholder="Select filter">
+              <mat-option *ngFor="let filter of filters" [value]="filter.value" >
+                {{filter.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div class="settingsCol">
+        <label>Sort By:</label>&nbsp;
+        <mat-form-field>
+            <!-- <mat-label>Filter By:</mat-label> -->
+            <mat-select placeholder="Select sort by">
+              <mat-option *ngFor="let sortType of sortTypes" [value]="sortType.value" >
+                {{sortType.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+
+
+    <table>
+        <tr>
+            <th>Page</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Date Created</th>
+            <th>Bookings</th>
+            <th>Cancel Bookings</th>
+            <th>Visits</th>
+        </tr>
+        <tr *ngFor="let page of pages; let i = index">
+            <td>
+                <div class="number">{{i+1}}</div>
+                <div class="bannerPhoto" [ngStyle]="{'background-image': 'url('+page.bannerPhoto+')'}"></div>
+                <div class="pageDetails">
+                    <span>{{page.title}} </span>
+                    <br> {{page.location.barangay + " "+ page.location.municipality + " " + page.location.city}}
+                    <br> {{page.creator.fullName}}
+                </div>
+            </td>
+            <td>{{page.pageType}} </td>
+            <td>{{page.category}}</td>
+            <td>{{page.createdAt | date:'medium'}}</td>
+            <td class="bookingsTotal">234</td>
+            <td class="cancelBookingsTotal">234</td>
+            <td class="visitsTotal">12,312</td>
+        </tr>
+    </table>
+</div>

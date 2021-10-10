@@ -50,7 +50,11 @@ import { NotificationHandlerComponent } from './notification-handler/notificatio
 import { ConversationComponent } from './conversation/conversation.component';
 import { NotificationCardComponent } from './notification-card/notification-card.component';
 import { AdminComponent } from './admin/admin.component';
-import { ReportsComponent } from './reports/reports.component'; 
+import { ReportsComponent } from './reports/reports.component';
+import { PageStatsComponent } from './page-stats/page-stats.component';
+import { OverallStatsComponent } from './overall-stats/overall-stats.component';
+import { PagesListComponent } from './pages-list/pages-list.component'; 
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 const config: SocketIoConfig = { url:environment.apiUrl, options: {} };
 
 // export function tokenGetter() {
@@ -82,6 +86,9 @@ const config: SocketIoConfig = { url:environment.apiUrl, options: {} };
     NotificationCardComponent,
     AdminComponent,
     ReportsComponent,
+    PageStatsComponent,
+    OverallStatsComponent,
+    PagesListComponent,
     // FilterPipe
   ],
   imports: [
@@ -102,6 +109,7 @@ const config: SocketIoConfig = { url:environment.apiUrl, options: {} };
     ReactiveFormsModule,
     MatBadgeModule,
     MatMenuModule,
+    MatSelectModule,
     MatPaginatorModule,
     SocketIoModule.forRoot(config)
     // Pusher
