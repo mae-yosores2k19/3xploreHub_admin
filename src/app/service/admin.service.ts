@@ -79,6 +79,10 @@ export class AdminService {
   getAllPendingNotifications(pageStatus) {
     return this.http.get(`${this.apiUrl}/getAllPendingNotifications/${pageStatus}`)
   }
+  getPagesList(pageStatus) {
+    return this.http.get(`${this.apiUrl}/getPagesList/${pageStatus}`)
+  }
+  //getPagesList
   // getProcessPage(pageId){
   //   return this.http.get(`${this.apiUrl}/getProcessPage/${pageId}`)
   // }

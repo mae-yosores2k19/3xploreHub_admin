@@ -66,6 +66,8 @@ interface SelectValue {
 
 
 export class PagesListComponent implements OnInit {
+  filterBy:string = 'none'
+  sortBy:string = 'none'
   pages: PageColumnData[]
 
   constructor(public router: Router, public adminService: AdminService) { }
@@ -78,17 +80,20 @@ export class PagesListComponent implements OnInit {
     {value: 'type', viewValue: 'Type'},
     {value: 'category', viewValue: 'Category'},
     {value: 'dateRange', viewValue: 'Date Range'},
-    {value: 'location', viewValue: 'Location'}
+    {value: 'location', viewValue: 'Location'},
+    {value: 'none', viewValue: 'None'}
   ];
 
   sortTypes: SelectValue[] = [
-    {value: 'bookings', viewValue: 'Total Bookings'},
-    {value: 'cancelled', viewValue: 'Cancelled Bookings Total'},
-    {value: 'visits', viewValue: 'Total Visits'}
+    {value: 'bookings', viewValue: 'Total Booked'},
+    {value: 'cancelled', viewValue: 'Total Cancelled Bookings'},
+    {value: 'visits', viewValue: 'Total Visits'},
+    {value: 'location', viewValue: 'Location'},
+    {value: 'none', viewValue: 'None'},
   ];
 
   getPages() {
-    this.adminService.getAllPendingNotifications("Online").subscribe((data: Page[]) => {
+    this.adminService.getPagesList("Online").subscribe((data: Page[]) => {
       this.pages = data.map(page => {
         let pageColData: PageColumnData = {bannerPhoto: page.components[0].data[0].url,creator: page.creator ,title: "",location: {barangay: "",municipality: "",city: ""},category: "",createdAt: page.createdAt,pageType: page.pageType}
         page.components.forEach(component => {

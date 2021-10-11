@@ -4,18 +4,21 @@
         <label>Filter By:</label>&nbsp;
         <mat-form-field>
             <!-- <mat-label>Filter By:</mat-label> -->
-            <mat-select placeholder="Select filter">
-              <mat-option *ngFor="let filter of filters" [value]="filter.value" >
+            <mat-select [(ngModel)]="filterBy">
+              <mat-option  *ngFor="let filter of filters" [value]="filter.value" >
                 {{filter.viewValue}}
               </mat-option>
             </mat-select>
           </mat-form-field>
     </div>
+    &nbsp;
+    &nbsp;
+    &nbsp;
     <div class="settingsCol">
-        <label>Sort By:</label>&nbsp;
+        <label>Rank By:</label>&nbsp;
         <mat-form-field>
             <!-- <mat-label>Filter By:</mat-label> -->
-            <mat-select placeholder="Select sort by">
+            <mat-select [(ngModel)]="sortBy" >
               <mat-option *ngFor="let sortType of sortTypes" [value]="sortType.value" >
                 {{sortType.viewValue}}
               </mat-option>
@@ -30,8 +33,8 @@
             <th>Type</th>
             <th>Category</th>
             <th>Date Created</th>
-            <th>Bookings</th>
-            <th>Cancel Bookings</th>
+            <th>Booked</th>
+            <th>Cancelled Bookings</th>
             <th>Visits</th>
         </tr>
         <tr *ngFor="let page of pages; let i = index">
