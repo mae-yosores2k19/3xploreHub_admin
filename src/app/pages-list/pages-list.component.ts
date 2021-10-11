@@ -29,7 +29,9 @@ export interface Page {
   otherServices: any[]
   pageType: string
   services: any[]
+  bookings: any[]
   status: string
+  visits: number
   updatedAt: string
   _id: string
 }
@@ -48,6 +50,11 @@ export interface PageColumnData {
   category: string
   createdAt: string
   pageType: string
+  bookings: any[]
+  unfinished: number
+  submitted: number
+  cancelled: number
+  visits: number
 }
 
 
@@ -66,36 +73,79 @@ interface SelectValue {
 
 
 export class PagesListComponent implements OnInit {
-  filterBy:string = 'none'
-  sortBy:string = 'none'
+  filterBy: string = 'none'
+  sortBy: string = 'submitted'
+  pageTypeSelected: string = 'all'
+  pagesOldList = []
+  categories = [{value: 'all', viewValue: 'All'}]
+  selectedCategory:string = 'all'
   pages: PageColumnData[]
-
+  types = { tourist_spot: "Tourist Spot", service: "Service" }
   constructor(public router: Router, public adminService: AdminService) { }
 
   ngOnInit(): void {
     this.getPages()
   }
 
+
+  pageType: SelectValue[] = [
+    { value: 'tourist_spot', viewValue: 'Tourist Spot' },
+    { value: 'service', viewValue: 'Service' },
+    { value: 'all', viewValue: 'All' },
+  ];
+
   filters: SelectValue[] = [
-    {value: 'type', viewValue: 'Type'},
-    {value: 'category', viewValue: 'Category'},
-    {value: 'dateRange', viewValue: 'Date Range'},
-    {value: 'location', viewValue: 'Location'},
-    {value: 'none', viewValue: 'None'}
+    { value: 'category', viewValue: 'Category' },
+    { value: 'dateRange', viewValue: 'Date Range' },
+    { value: 'location', viewValue: 'Location' },
+    { value: 'none', viewValue: 'None' }
   ];
 
   sortTypes: SelectValue[] = [
-    {value: 'bookings', viewValue: 'Total Booked'},
-    {value: 'cancelled', viewValue: 'Total Cancelled Bookings'},
-    {value: 'visits', viewValue: 'Total Visits'},
-    {value: 'location', viewValue: 'Location'},
-    {value: 'none', viewValue: 'None'},
+    { value: 'submitted', viewValue: 'Total submitted bookings' },
+    { value: 'unfinished', viewValue: 'Total unfinished bookings' },
+    { value: 'cancelled', viewValue: 'Total cancelled bookings' },
+    { value: 'visits', viewValue: 'Total Visits' },
   ];
+
+  filterByPageType() {
+    if (this.pageTypeSelected != "all") {
+      this.pages = this.pagesOldList.filter(page => page.pageType == this.pageTypeSelected)
+    } else {
+      this.pages = this.pagesOldList
+      this.sortPages()
+    }
+
+  }
+
+  filterPages() {
+    switch(this.filterBy) {
+      case "category":
+        if (this.selectedCategory != 'all') {this.pages = this.pagesOldList.filter(page => page.category == this.selectedCategory)}
+        else {
+          this.pages = this.pagesOldList
+          this.sortPages()
+        }
+        return
+      default:
+        this.pages = this.pagesOldList
+        this.sortPages()
+        return
+    }
+  }
+
+  sortPages() {
+    this.pages = this.pages.sort((a, b) => {
+      return b[this.sortBy] - a[this.sortBy]
+    })
+  }
+
+  getAllCategory() { }
 
   getPages() {
     this.adminService.getPagesList("Online").subscribe((data: Page[]) => {
       this.pages = data.map(page => {
-        let pageColData: PageColumnData = {bannerPhoto: page.components[0].data[0].url,creator: page.creator ,title: "",location: {barangay: "",municipality: "",city: ""},category: "",createdAt: page.createdAt,pageType: page.pageType}
+        let pageColData: PageColumnData = { visits: page.visits, submitted: 0, cancelled: 0, unfinished: 0, bookings: page.bookings, bannerPhoto: page.components[0].data[0].url, creator: page.creator, title: "", location: { barangay: "", municipality: "", city: "" }, category: "", createdAt: page.createdAt, pageType: page.pageType }
         page.components.forEach(component => {
           const data = component.data
           if (data.defaultName == "pageName") { pageColData.title = data.text }
@@ -104,9 +154,20 @@ export class PagesListComponent implements OnInit {
           if (data.defaultName == "province") { pageColData.location.city = data.text }
           if (data.defaultName == "category") { pageColData.category = data.text }
         });
+        pageColData.bookings.forEach((bkng) => {
+          if (bkng.status == "Unfinished") { pageColData.unfinished++ }
+          else if (bkng.status == "Cancelled") { pageColData.cancelled++ }
+          else { pageColData.submitted++ }
+        })
         return pageColData
       })
+      let categoryValue = []
+      this.pages.forEach(page => { if (!categoryValue.includes(page.category)) categoryValue.push(page.category)})
+      this.categories = [...this.categories, ...categoryValue.map(category => {return {value: category, viewValue: category}})]
+      this.pagesOldList = this.pages
+      this.sortPages()
       console.log("pages: ", this.pages)
     })
   }
+
 }
