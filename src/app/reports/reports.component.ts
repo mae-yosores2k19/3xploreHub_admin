@@ -14,8 +14,6 @@ export class ReportsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-
   goTo(clicked) {
     this.router.navigate(["/admin/reports/" + clicked])
   }

@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <button class="appBtn">Overall Stats</button>
+  <button class="appBtn">Explorehub Overall Stats</button>
   <div class="settingsCol">
     <label>Page Type:</label>&nbsp;
     <mat-form-field>
@@ -12,17 +12,6 @@
   </div>
 
   <div class="settingsCol">
-    <label>Filter By:</label>&nbsp;
-    <mat-form-field>
-      <mat-select [(ngModel)]="filterBy" (selectionChange)="filterPages()">
-        <mat-option *ngFor="let filter of filters" [value]="filter.value">
-          {{filter.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
-  <div class="settingsCol"  *ngIf="filterBy == 'category'">
     <label>Category:</label>&nbsp;
     <mat-form-field>
       <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterPages()">
@@ -54,7 +43,7 @@
       <th style="text-align:center"></th>
     </tr>
     <tr>
-      <th>Page</th>
+      <th>Title | Location | Creator</th>
       <th>Type</th>
       <th>Category</th>
       <th>Date Created</th>
@@ -63,7 +52,7 @@
       <th style="text-align:center">Cancelled</th>
       <th style="text-align:center">Visited by tourists</th>
     </tr>
-    <tr *ngFor="let page of pages; let i = index">
+    <tr *ngFor="let page of pages; let i = index" (click)="viewPageStats(page._id)">
       <td>
         <div class="number">{{i+1}}</div>
         <div class="bannerPhoto" [ngStyle]="{'background-image': 'url('+page.bannerPhoto+')'}"></div>

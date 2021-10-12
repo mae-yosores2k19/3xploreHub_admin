@@ -5,7 +5,7 @@ table tr:hover {background-color: rgb(206, 239, 253); cursor: pointer;}
 table tr:first-child { pointer-events: none;}
 table tr td {padding: 8px 5px; text-align: center; color: rgb(62, 88, 105); border: 1px solid rgb(223, 228, 236);}
 table tr td:first-child {text-align: left; display: flex; align-items: center;}
-table th {padding: 11px 5px;background-color: rgb(204, 218, 231); color: rgb(49, 82, 116); text-align: center; border: 1px solid rgb(188, 197, 212); }
+table th {padding: 11px 5px;background-color: rgb(204, 218, 231); color: rgb(49, 82, 116); text-align: center; border: 1px solid rgb(172, 182, 199); }
 /* table th:first-child {text-align: center;} */
 table th span { vertical-align: middle; font-size: 18px;}
 .wrapper {padding: 10px; max-width: 1400px; margin: 0 auto;}

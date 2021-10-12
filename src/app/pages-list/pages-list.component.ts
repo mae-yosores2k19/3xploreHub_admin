@@ -55,6 +55,7 @@ export interface PageColumnData {
   submitted: number
   cancelled: number
   visits: number
+  _id: string
 }
 
 
@@ -76,9 +77,10 @@ export class PagesListComponent implements OnInit {
   filterBy: string = 'none'
   sortBy: string = 'submitted'
   pageTypeSelected: string = 'all'
+  all = { value: 'all', viewValue: "All" }
   pagesOldList = []
-  categories = [{value: 'all', viewValue: 'All'}]
-  selectedCategory:string = 'all'
+  categories = [this.all]
+  selectedCategory: string = 'all'
   pages: PageColumnData[]
   types = { tourist_spot: "Tourist Spot", service: "Service" }
   constructor(public router: Router, public adminService: AdminService) { }
@@ -109,28 +111,21 @@ export class PagesListComponent implements OnInit {
   ];
 
   filterByPageType() {
+    this.getCategories()
+    this.selectedCategory = 'all'
     if (this.pageTypeSelected != "all") {
       this.pages = this.pagesOldList.filter(page => page.pageType == this.pageTypeSelected)
     } else {
       this.pages = this.pagesOldList
       this.sortPages()
     }
-
   }
 
   filterPages() {
-    switch(this.filterBy) {
-      case "category":
-        if (this.selectedCategory != 'all') {this.pages = this.pagesOldList.filter(page => page.category == this.selectedCategory)}
-        else {
-          this.pages = this.pagesOldList
-          this.sortPages()
-        }
-        return
-      default:
-        this.pages = this.pagesOldList
-        this.sortPages()
-        return
+    if (this.selectedCategory != 'all') { this.pages = this.pagesOldList.filter(page => page.category == this.selectedCategory) }
+    else {
+      this.pages = this.pagesOldList
+      this.sortPages()
     }
   }
 
@@ -140,12 +135,17 @@ export class PagesListComponent implements OnInit {
     })
   }
 
-  getAllCategory() { }
+  getCategories() {
+    let categoryValue = []
+    this.pagesOldList.forEach(page => { if (!categoryValue.includes(page.category) && (page.pageType == this.pageTypeSelected || this.pageTypeSelected == 'all')) categoryValue.push(page.category) })
+    this.categories = [this.all, ...categoryValue.map(category => { return { value: category, viewValue: category } })]
+    console.log(this.categories)
+  }
 
   getPages() {
     this.adminService.getPagesList("Online").subscribe((data: Page[]) => {
       this.pages = data.map(page => {
-        let pageColData: PageColumnData = { visits: page.visits, submitted: 0, cancelled: 0, unfinished: 0, bookings: page.bookings, bannerPhoto: page.components[0].data[0].url, creator: page.creator, title: "", location: { barangay: "", municipality: "", city: "" }, category: "", createdAt: page.createdAt, pageType: page.pageType }
+        let pageColData: PageColumnData = {_id: page._id, visits: page.visits, submitted: 0, cancelled: 0, unfinished: 0, bookings: page.bookings, bannerPhoto: page.components[0].data[0].url, creator: page.creator, title: "", location: { barangay: "", municipality: "", city: "" }, category: "", createdAt: page.createdAt, pageType: page.pageType }
         page.components.forEach(component => {
           const data = component.data
           if (data.defaultName == "pageName") { pageColData.title = data.text }
@@ -161,13 +161,16 @@ export class PagesListComponent implements OnInit {
         })
         return pageColData
       })
-      let categoryValue = []
-      this.pages.forEach(page => { if (!categoryValue.includes(page.category)) categoryValue.push(page.category)})
-      this.categories = [...this.categories, ...categoryValue.map(category => {return {value: category, viewValue: category}})]
+
       this.pagesOldList = this.pages
+      this.getCategories()
       this.sortPages()
       console.log("pages: ", this.pages)
     })
+  }
+
+  viewPageStats(_id) {
+    this.router.navigate(["/admin/reports/pageStats", _id])
   }
 
 }

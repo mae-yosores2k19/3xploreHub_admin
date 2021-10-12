@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-page-stats',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page-stats.component.css']
 })
 export class PageStatsComponent implements OnInit {
-
-  constructor() { }
+  pageId:string;
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.pageId = this.route.snapshot.paramMap.get('pageId');
   }
 
 }
