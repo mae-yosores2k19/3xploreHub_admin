@@ -10,30 +10,29 @@ export class PageStatsComponent implements OnInit {
   pageId: string;
   num = 2
   rows = []
-  number = 15
+  number = 10
   dates = [
-    { submitted: 3, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    { submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    { submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    { submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    { submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 1, unfinished: 2, cancelled: 1, visited: 7 },
-    { submitted: 0, unfinished: 0, cancelled: 0, visited: 7 },
-    { submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    { submitted: 1, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    { submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    { submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
-    { submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    { submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 4, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 0, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    { submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "Oct 13, 2021", submitted: 3, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 1, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
   ]
   constructor(private route: ActivatedRoute) { }
 
