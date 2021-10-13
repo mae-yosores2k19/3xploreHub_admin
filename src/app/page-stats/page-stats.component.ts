@@ -4,35 +4,52 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-page-stats',
   templateUrl: './page-stats.component.html',
-  styleUrls: ['./page-stats.component.css']
+  styleUrls: ['./page-stats.component.scss']
 })
 export class PageStatsComponent implements OnInit {
   pageId: string;
-  num = 2
+  rowNum = 2
+  colNum = 0
   rows = []
   number = 10
   dates = [
-    {date: "Oct 13, 2021", submitted: 3, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 1, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "10/13/2021", submitted: 3, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "10/13/2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "10/13/2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "10/13/2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "10/13/2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    {date: "10/13/2021", submitted: 1, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "10/13/2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
+    {date: "10/13/2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "Week 1", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+    // {date: "10/13/2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "Week 1", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
+    // {date: "10/13/2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
+    // {date: "10/13/2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
+
   ]
   constructor(private route: ActivatedRoute) { }
 
@@ -61,15 +78,17 @@ export class PageStatsComponent implements OnInit {
   }
 
   showRows() {
-    if (this.rows.length > 20) { this.num = 5 }
-    if (this.rows.length > 40) { this.num = 10 }
+    if (this.rows.length > 20) this.rowNum = 5 
+    if (this.rows.length > 40) this.rowNum = 10 
     if (this.rows.length > 100) {
       let n = this.rows.length
       while (n > 100) {
-        this.num += 10
+        this.rowNum += 10
         n -= 100
       }
     }
+
+    if (this.dates.length > 14) this.colNum = 2
   }
 
 }
