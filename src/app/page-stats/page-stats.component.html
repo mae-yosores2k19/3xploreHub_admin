@@ -14,13 +14,13 @@
             <td *ngFor="let day of dates; index as i" [ngClass]="{'darker': i % 2 != 0}">
                 <div class="col">
                     <div  class="dateData submitted"
-                        [ngStyle]="{'height': (day.submitted * 100) / rows.length + '%' }"></div>
+                        [ngStyle]="{'height': ((day.submitted * 100) / rows.length).toFixed() + '%' }"></div>
                     <div  class="dateData unfinished"
-                        [ngStyle]="{'height': (day.unfinished * 100) / rows.length + '%' }"></div>
+                        [ngStyle]="{'height': ((day.unfinished * 100) / rows.length).toFixed() + '%' }"></div>
                     <div  class="dateData cancelled"
-                        [ngStyle]="{'height': (day.cancelled * 100) / rows.length + '%' }"></div>
+                        [ngStyle]="{'height': ((day.cancelled * 100) / rows.length).toFixed() + '%' }"></div>
                     <div class="dateData visited"
-                        [ngStyle]="{'height': (day.visited * 100) / rows.length + '%' }"></div>
+                        [ngStyle]="{'height': ((day.visited * 100) / rows.length).toFixed() + '%' }"></div>
                 </div>
                 <div class="dateLineHolder"><div class="dateLine"></div></div>
                 <div class="dateDetails">
