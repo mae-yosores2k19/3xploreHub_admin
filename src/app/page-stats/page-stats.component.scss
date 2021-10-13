@@ -1,4 +1,4 @@
-.chart {display: block; padding: 0; margin: 70px 40px; position: relative;}
+.chart {display: block; padding: 0; margin: 0 40px 40px 40px; position: relative;}
 table.lines { box-sizing:  border-box; width: 100%; border-collapse:collapse;  margin: 0; padding: 0; height: 500px;}
 table.lines td {  background: rgba(229, 236, 241, 0.6); box-sizing: border-box; position: relative;}
 table.lines tr {box-sizing: border-box;border: 1px solid rgb(200, 215, 231); color: rgb(107, 114, 121);}
@@ -17,7 +17,7 @@ table.data tr {padding: 0; margin: 0}
 .dateData:hover {
     div { display: block;}
 }
-.submitted {background-color: rgb(0, 187, 84) ;}
+.submitted {background-color: rgb(0, 187, 84);}
 .cancelled {background-color:rgb(240, 13, 51);}
 .unfinished {background-color: rgb(241, 158, 33) ;}
 .visited {background-color: rgb(200, 56, 219);}
@@ -29,7 +29,24 @@ table.data tr {padding: 0; margin: 0}
     p {margin: 0;}
 }
 .square {width: 10px; height: 10px; border-radius: 2px; position: relative; top: 14px; left: -15px;}
+.hiddenDate:hover {
+    .datePopup { display: block; padding: 8px 10px !important; left: 0; top: 10px;} 
+}
 
-    .hiddenDate:hover {
-        .datePopup { display: block; padding: 8px 10px !important; left: 0; top: 10px;} 
-    }
+.chartHeader { display: flex; justify-content: space-between; margin: 10px 40px 0 40px;padding-top: 15px; align-items: center; border-top: 1px solid rgb(174, 203, 230);}
+.title {margin: 10px 40px 0 40px; padding: 10px 0;}
+.legends {display: flex; padding: 10px 0;  min-width: 350px; }
+.legend { margin-left: 30px; color:rgb(37, 53, 68); position: relative; }
+.lgCol:first-child {margin-right: 20px;}
+.legend::before {content: " "; height: 15px; width: 15px; display: block; position: absolute; top: 1px; left: -22px;border-radius: 5px;}
+.submittedLg::before { background-color: rgb(0, 187, 84) ;}
+.unfinishedLg::before { background-color: rgb(241, 158, 33) ;}
+.cancelledLg::before { background-color: rgb(240, 13, 51);}
+.visitedLg::before { background-color: rgb(200, 56, 219);}
+.dateRange {display: flex; align-items: center; padding: 8px 0;
+    .inputLabel {margin: 0 10px 0 0 !important; color:rgb(96, 107, 117); font-size: 18px;}
+    input {margin-right: 20px; padding: 5px 10px;border: none; border-bottom: 1px solid rgb(41, 41, 41);}
+}
+.totals { font-size: 17px; color: rgb(9, 90, 167);}
+h3 {margin: 5px 0 0 0; color: rgb(148, 164, 182);  letter-spacing: 2px;}
+h1 {font-size: 35px; color:rgb(33, 59, 85); margin-bottom: 5px;}
