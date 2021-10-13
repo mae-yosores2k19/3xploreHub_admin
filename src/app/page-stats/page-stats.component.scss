@@ -25,7 +25,7 @@ table.data tr {padding: 0; margin: 0}
 .dateLineHolder {position: absolute; bottom: -4px; height: 7px; width: 100%; background-color: none; justify-content: center; display: flex;}
 .dateLine {height: 100%; width: 75%; background-color: dodgerblue;}
 .noNeighbors {padding: 0 !important; bottom: -10px; }
-.dataPopup {position: absolute; top: 0px; padding: 0px 7px 7px 25px; left: 20px; white-space: pre; background-color: white; color: rgb(37, 57, 124);z-index: 99999; display: none; border-radius: 2px; box-shadow: 0 4px 5px rgba(0, 0, 0, 0.7), 0 1px 8px rgba(0, 0, 0, 0.3); 
+.dataPopup {position: absolute; top: 0px; padding: 0px 7px 7px 25px; left: 20px; white-space: pre; background-color: white; color: rgb(37, 57, 124);z-index: 99999; display: none; border-radius: 2px; box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4), 0 1px 8px rgba(0, 0, 0, 0.1); 
     p {margin: 0;}
 }
 .square {width: 10px; height: 10px; border-radius: 2px; position: relative; top: 14px; left: -15px;}
@@ -44,9 +44,15 @@ table.data tr {padding: 0; margin: 0}
 .cancelledLg::before { background-color: rgb(240, 13, 51);}
 .visitedLg::before { background-color: rgb(200, 56, 219);}
 .dateRange {display: flex; align-items: center; padding: 8px 0;
-    .inputLabel {margin: 0 10px 0 0 !important; color:rgb(96, 107, 117); font-size: 18px;}
+    .inputLabel {margin: 0 10px 0 0 !important; color:rgb(68, 106, 141); font-size: 18px;}
     input {margin-right: 20px; padding: 5px 10px;border: none; border-bottom: 1px solid rgb(41, 41, 41);}
 }
-.totals { font-size: 17px; color: rgb(9, 90, 167);}
-h3 {margin: 5px 0 0 0; color: rgb(148, 164, 182);  letter-spacing: 2px;}
-h1 {font-size: 35px; color:rgb(33, 59, 85); margin-bottom: 5px;}
+.totals { font-size: 17px; color: rgb(67, 105, 139);}
+h3 {margin: 5px 0 0 10px; color: rgb(148, 164, 182); font-size: 20px;  letter-spacing: 2px; }
+h1 {font-size: 35px; color:rgb(34, 96, 158); margin-bottom: 5px;}
+.back {background-color: rgb(232, 239, 243);display: flex; align-items: center;font-size: 18px; padding: 1px; border-radius:4px; cursor: pointer; color:rgb(133, 147, 161);
+    span {font-size: 25px;}
+}
+
+.back:hover {color:dodgerblue; background-color: rgb(214, 226, 230);
+}

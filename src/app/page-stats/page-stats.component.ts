@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-page-stats',
@@ -51,7 +51,7 @@ export class PageStatsComponent implements OnInit {
     // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
 
   ]
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, public router: Router) { }
 
   ngOnInit(): void {
     const nums = new Array(this.number)
@@ -89,6 +89,10 @@ export class PageStatsComponent implements OnInit {
     }
 
     if (this.dates.length > 10) this.colNum = 2
+  }
+
+  goBack() {
+    this.router.navigate(["/admin/reports"])
   }
 
 }
