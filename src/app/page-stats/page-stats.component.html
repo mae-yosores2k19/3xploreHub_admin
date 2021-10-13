@@ -11,22 +11,43 @@
 
     <table class="data">
         <tr>
-            <td *ngFor="let day of dates; index as i" [ngClass]="{'darker': i % 2 != 0}">
+            <td *ngFor="let day of dates; index as i" [ngClass]="{'darker': i % 2 != 0,'hiddenDate': colNum != 0 && i % colNum != 0}">
                 <div class="col">
                     <div  class="dateData submitted" [ngStyle]="{'height': ((day.submitted * 100) / rows.length).toFixed() + '%' }">
-                    
+                        <div class="dataPopup submitted">
+                            <div class="square submitted"></div>
+                            <p>{{day.date}}</p>
+                            <p>Submitted: {{day.submitted}}</p>
+                        </div>
                     </div>
                     <div  class="dateData unfinished" [ngStyle]="{'height': ((day.unfinished * 100) / rows.length).toFixed() + '%' }">
-                    
+                        <div class="dataPopup unfinished">
+                            <div class="square unfinished"></div>
+                            <p>{{day.date}}</p>
+                            <p>Unfinished: {{day.unfinished}}</p>
+                        </div>
                     </div>
                     <div  class="dateData cancelled" [ngStyle]="{'height': ((day.cancelled * 100) / rows.length).toFixed() + '%' }">
-                    
+                        <div class="dataPopup cancelled">
+                            <div class="square cancelled"></div>
+                            <p>{{day.date}}</p>
+                            <p>Cancelled: {{day.cancelled}}</p>
+                        </div>
                     </div>
                     <div class="dateData visited" [ngStyle]="{'height': ((day.visited * 100) / rows.length).toFixed() + '%' }">
-                    
+                        <div class="dataPopup visited">
+                            <div class="square visited"></div>
+                            <p>{{day.date}}</p>
+                            <p>Visited: {{day.visited}}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="dateLineHolder"><div class="dateLine"></div></div>
+                <div class="dateLineHolder">
+                    <div class="dateLine"></div>
+                    <div class="dataPopup datePopup">
+                        <p>{{day.date}}</p>
+                    </div>
+                </div>
                 <div class="dateDetails" [ngClass]="{'noNeighbors': colNum != 0}" *ngIf="i % colNum == 0 || colNum == 0">
                     {{day.date}}
                 </div>
