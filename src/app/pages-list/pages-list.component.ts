@@ -59,7 +59,7 @@ export interface PageColumnData {
 }
 
 
-interface SelectValue {
+export interface SelectValue {
   value: string;
   viewValue: string;
 }

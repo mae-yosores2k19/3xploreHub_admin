@@ -161,5 +161,10 @@ export class AdminService {
     return this.http.post(`${apiUrl}/service-provider/createConvoForPageSubmission`, data, { headers: { authorization: `bearer ${token}` } })
   }
 
+  getPageBookings(pageId:string) {
+    const { apiUrl, token} = this.getApiUrlAndToken()
+    return this.http.get(`${apiUrl}/admin/getPageBookings/${pageId}`, { headers: { authorization: `bearer ${token}` } })
+  }
+
 }
 
