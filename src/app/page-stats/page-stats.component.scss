@@ -6,14 +6,14 @@ table.lines tr {box-sizing: border-box;border: 1px solid rgb(200, 215, 231); col
 table.line {border-bottom: 1px solid rgb(203, 210, 219); }
 table.data { border-bottom: 2px solid dodgerblue; padding: 0; margin: 0; border-collapse: collapse; width: 100%; position: absolute;   height: 100%; top: 0; left: 0; right: 0; bottom: 0;}
 table.data td { position: relative;}
-.darker {background-color: rgba(238, 242, 247, 0.5);}
+.darker {background-color: rgba(236, 241, 247, 0.5);}
 table.data td:hover { background-color: rgba(133, 237, 255, 0.5); outline: 1px solid dodgerblue;
     .dateDetails { color:rgb(0, 126, 252);  display: block; font-weight: 600;}
 }
 
 table.data tr {padding: 0; margin: 0}
 .col {height: 100%; display: flex; align-items: flex-end; justify-content: center; }
-.dateData {  width: 20%; margin: 0 1px; border-top-left-radius: 50px; border-top-right-radius: 50px; position: relative;}
+.dateData {  width: 23%; margin: 0 1px; border-top-left-radius: 50px; border-top-right-radius: 50px; position: relative;}
 .dateData:hover {
     div { display: block;}
 }
@@ -23,7 +23,7 @@ table.data tr {padding: 0; margin: 0}
 .visited {background-color: rgb(200, 56, 219);}
 .dateDetails {position: absolute; color: rgb(133, 139, 145); bottom: -20px; display: block;width: 100%; padding: 10px; text-align: center;  height: 2px ; overflow: visible;}
 .dateLineHolder {position: absolute; bottom: -4px; height: 7px; width: 100%; background-color: none; justify-content: center; display: flex;}
-.dateLine {height: 100%; width: 75%; background-color: dodgerblue;}
+.dateLine {height: 100%; width: 85%; background-color: dodgerblue;}
 .noNeighbors {padding: 0 !important; bottom: -10px; }
 .dataPopup {position: absolute; top: 0px; padding: 0px 7px 7px 25px; left: 20px; white-space: pre; background-color: white; color: rgb(37, 57, 124);z-index: 99999; display: none; border-radius: 2px; box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4), 0 1px 8px rgba(0, 0, 0, 0.1); 
     p {margin: 0;}
