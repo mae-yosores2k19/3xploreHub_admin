@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectValue } from '../pages-list/pages-list.component';
 import { AdminService } from '../service/admin.service';
@@ -13,8 +14,14 @@ export class PageStatsComponent implements OnInit {
   rowNum = 2
   colNum = 0
   rows = []
+  firstDate = null
+  //by date 
+  start = null
+  end = null
+  hideDateText =false
   selectedTimeRange = 'daily'
   highestNum = 0
+  byDate = []
   dates = [
     // {date: "Oct 13, 2021", submitted: 3, unfinished: 2, cancelled: 1, visited: 0 },
     // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
@@ -55,6 +62,14 @@ export class PageStatsComponent implements OnInit {
 
   ]
 
+  allDates = []
+
+  range = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl()
+  });
+
+
   timeRange: SelectValue[] = [
     { value: 'daily', viewValue: 'Daily' },
     { value: 'weekly', viewValue: 'Weekly' },
@@ -68,29 +83,34 @@ export class PageStatsComponent implements OnInit {
     this.pageId = this.route.snapshot.paramMap.get('pageId');
 
     this.adminService.getPageBookings(this.pageId).subscribe(bookings => {
-      console.log(bookings)
       this.groupByDate(bookings)
       const nums = new Array(this.highestNum + 1)
       for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
       this.showRows()
     }, error => { console.log(error) })
-
-
-  
   }
+
+  selectDateRange() {
+    if (this.range.value.start && this.range.value.end && (this.range.value.start <= this.range.value.end)) {
+      this.initializeByDay(this.range.value.start, this.range.value.end)
+      this.showRows()
+    }
+  }
+
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   groupByDate(bookings) {
     let dates = []
     bookings = bookings.map(booking => {
       const date = new Date(booking.createdAt)
-      const d = new Date(date.getFullYear(), date.getMonth(), date.getDay()).toDateString().split(" ").join("_")
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDay()).toDateString()
+      if (!this.firstDate) this.firstDate = d
       if (!dates.includes(d)) dates.push(d)
       booking.createdAt = d
       return booking
     });
     let datesData = {}
-    dates.forEach(date => { datesData[date] = { date: date.split("_").join(" "), submitted: 0, unfinished: 0, cancelled: 0, visited: 0 } })
+    dates.forEach(date => { datesData[date] = { date: date, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 } })
     bookings.forEach(booking => {
       if (booking.status == "Unfinished") {
         datesData[booking.createdAt].unfinished += 1
@@ -106,7 +126,28 @@ export class PageStatsComponent implements OnInit {
       }
     });
     this.dates = Object.values(datesData)
-    console.log(dates)
+    this.allDates = Object.values(datesData)
+    let start = new Date(this.firstDate)
+    let end = new Date(this.firstDate)
+    end.setDate(end.getDate() + 6)
+    this.range.setValue({start: start, end: end})
+    this.initializeByDay(start, end)
+  }
+
+  initializeByDay(startDate, endDate) {
+    let td = startDate
+    let datesData = {}
+    datesData[td.toDateString()] = { date: td.toDateString(), submitted: 0, unfinished: 0, cancelled: 0, visited: 0 } 
+    while (td < endDate) {
+      td.setDate(td.getDate()+1)
+      datesData[td.toDateString()] = { date: td.toDateString(), submitted: 0, unfinished: 0, cancelled: 0, visited: 0 } 
+    }
+    this.allDates.forEach(date => {
+      if (datesData[date.date]) {
+        datesData[date.date] = date
+      } 
+    })
+    this.dates = Object.values(datesData)
   }
 
   addRow() {
@@ -135,6 +176,9 @@ export class PageStatsComponent implements OnInit {
     }
 
     if (this.dates.length > 10) this.colNum = 2
+    else this.colNum = 0
+    if (this.dates.length > 31) this.hideDateText = true
+    else this.hideDateText = false
   }
 
   goBack() {

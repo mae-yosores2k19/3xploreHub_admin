@@ -21,10 +21,21 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <h2 class="inputLabel">From: </h2>
-            <input placeholder="Oct 2, 2021" class="dateInput" />
-            <h2 class="inputLabel">To: </h2>
-            <input placeholder="Oct 20, 2021" class="dateInput" />
+            <h2 class="inputLabel">Date range: </h2>
+            <mat-form-field>
+                <mat-label>Enter a date range</mat-label>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="selectDateRange()">
+                    <input matEndDate formControlName="end" placeholder="End date" (dateChange)="selectDateRange()">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+            </mat-form-field>
+
+            <!-- <p>Selected range: {{range.value | json}}</p> -->
         </div>
     </div>
     <div class="legends">
@@ -52,7 +63,7 @@
     <table class="data">
         <tr>
             <td *ngFor="let day of dates; index as i"
-                [ngClass]="{'darker': i % 2 != 0,'hiddenDate': colNum != 0 && i % colNum != 0}">
+                [ngClass]="{'darker': i % 2 != 0,'hiddenDate': colNum != 0 && i % colNum != 0 || hideDateText}">
                 <div class="col">
                     <div class="dateData submitted"
                         [ngStyle]="{'height': (day.submitted? ((day.submitted * 100) / rows.length).toFixed() : 1) + '%' }">
@@ -94,7 +105,7 @@
                     </div>
                 </div>
                 <div class="dateDetails" [ngClass]="{'noNeighbors': colNum != 0}"
-                    *ngIf="i % colNum == 0 || colNum == 0">
+                    *ngIf="(i % colNum == 0 || colNum == 0) && !hideDateText">
                     {{day.date}}
                 </div>
             </td>

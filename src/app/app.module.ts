@@ -43,6 +43,7 @@ import { BookingNotificationComponent } from './booking-notification/booking-not
 import { NotificationsComponent } from './notifications/notifications.component';
 import { PagesNotificationsComponent } from './pages-notifications/pages-notifications.component';
 import { MessageBoxComponent } from './message-box/message-box.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { environment } from '../environments/environment';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -55,6 +56,7 @@ import { PageStatsComponent } from './page-stats/page-stats.component';
 import { OverallStatsComponent } from './overall-stats/overall-stats.component';
 import { PagesListComponent } from './pages-list/pages-list.component'; 
 import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
 const config: SocketIoConfig = { url:environment.apiUrl, options: {} };
 
 // export function tokenGetter() {
@@ -111,11 +113,14 @@ const config: SocketIoConfig = { url:environment.apiUrl, options: {} };
     MatMenuModule,
     MatSelectModule,
     MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     SocketIoModule.forRoot(config)
     // Pusher
   ],
   providers: [
     AdminService,
+    MatDatepickerModule,
     AuthGuard,
   ],
   bootstrap: [AppComponent],
