@@ -16,6 +16,7 @@ export class PageStatsComponent implements OnInit {
   rows = []
   firstDate = null
   start = null
+  allBookings = []
   end = null
   hideDateText = false
   selectedTimeRangeType = 'monthly'
@@ -81,11 +82,15 @@ export class PageStatsComponent implements OnInit {
   ngOnInit(): void {
     this.pageId = this.route.snapshot.paramMap.get('pageId');
 
-    this.adminService.getPageBookings(this.pageId).subscribe(bookings => {
-      this.groupByDate(bookings)
-      const nums = new Array(this.highestNum + 1)
-      for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
-      this.showRows()
+    this.adminService.getPageBookings(this.pageId).subscribe((bookings: any[]) => {
+      this.allBookings = bookings
+      if (bookings.length > 0 ) {
+
+        this.groupByDate(bookings)
+        const nums = new Array(this.highestNum + 1)
+        for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
+        this.showRows()
+      }
     }, error => { console.log(error) })
   }
 
@@ -109,7 +114,7 @@ export class PageStatsComponent implements OnInit {
     } else if (this.selectedTimeRangeType == "monthly") {
       if (!start && !end) {
         start = new Date(this.firstDate)
-        end = new Date()
+        end = new Date()        
         console.log(start.getDate() - end.getDate())
         this.range.setValue({ start: start, end: end })
       }
@@ -117,7 +122,7 @@ export class PageStatsComponent implements OnInit {
       this.initializeByMonth(start, end)
     }
     this.showRows()
-
+ 
   }
 
   groupByDate(bookings) {

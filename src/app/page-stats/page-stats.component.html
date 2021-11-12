@@ -10,12 +10,13 @@
 
 <div class="chartHeader">
     <div>
-        <div class='totals'><b>23</b> tourists submitted a bookings &nbsp;&nbsp; <b>12</b> cancelled their bookings
+        <div class="totals" *ngIf="allBookings.length == 0">No data</div>
+        <div *ngIf="allBookings.length > 0" class='totals'><b>23</b> tourists submitted a bookings &nbsp;&nbsp; <b>12</b> cancelled their bookings
             &nbsp;&nbsp; <b>2</b> has unfinished bookings</div>
         <div class="dateRange">
             <h2 class="inputLabel">By:</h2>&nbsp;
             <mat-form-field style="margin-right: 20px;">
-                <mat-select [(ngModel)]="selectedTimeRangeType" (selectionChange)="setGraph()">
+                <mat-select [disabled]="allBookings.length == 0" [(ngModel)]="selectedTimeRangeType" (selectionChange)="setGraph()">
                     <mat-option *ngFor="let range of timeRange" [value]="range.value">
                         {{range.viewValue}}
                     </mat-option>
@@ -24,7 +25,7 @@
             <h2 class="inputLabel">Date range: </h2>
             <mat-form-field>
                 <mat-label>Enter a date range</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [disabled]="allBookings.length == 0">
                     <input matStartDate formControlName="start" placeholder="Start date"
                         (dateChange)="selectDateRange()">
                     <input matEndDate formControlName="end" placeholder="End date" (dateChange)="selectDateRange()">
@@ -49,8 +50,9 @@
         </div>
     </div>
 </div>
-<div class="chart">
 
+<div class="chart">
+    <div class="noData" *ngIf="allBookings.length == 0">No Data</div>
     <table class="lines">
         <tr *ngFor="let row of rows.reverse(); index as i">
             <td *ngIf="row % rowNum == 0 || 10 >= rows.length">
