@@ -22,48 +22,10 @@ export class PageStatsComponent implements OnInit {
   selectedTimeRangeType = 'monthly'
   highestNum = 0
   byDate = []
-  dates = [
-    // {date: "Oct 13, 2021", submitted: 3, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 1, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 4, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Week 1", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 2, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 6, unfinished: 0, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-    // {date: "Oct 13, 2021", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Week 1", submitted: 0, unfinished: 0, cancelled: 0, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 5, unfinished: 2, cancelled: 1, visited: 0 },
-    // {date: "Oct 13, 2021", submitted: 9, unfinished: 2, cancelled: 1, visited: 7 },
-
-  ]
-
+  dates = []
   allDates = []
   allMonths = []
+  allYears = []
 
   range = new FormGroup({
     start: new FormControl(),
@@ -84,11 +46,10 @@ export class PageStatsComponent implements OnInit {
 
     this.adminService.getPageBookings(this.pageId).subscribe((bookings: any[]) => {
       this.allBookings = bookings
-      if (bookings.length > 0 ) {
+      if (bookings.length > 0) {
 
         this.groupByDate(bookings)
-        const nums = new Array(this.highestNum + 1)
-        for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
+        this.setGraph()
         this.showRows()
       }
     }, error => { console.log(error) })
@@ -103,6 +64,8 @@ export class PageStatsComponent implements OnInit {
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   setGraph(start = null, end = null) {
+    this.highestNum = 0
+    this.rows = []
     if (this.selectedTimeRangeType == "daily") {
       if (!start && !end) {
         start = new Date(this.firstDate)
@@ -110,49 +73,67 @@ export class PageStatsComponent implements OnInit {
         end.setDate(end.getDate() + 20)
         this.range.setValue({ start: start, end: end })
       }
+      this.groupByDate(this.allBookings)
       this.initializeByDay(start, end)
     } else if (this.selectedTimeRangeType == "monthly") {
       if (!start && !end) {
         start = new Date(this.firstDate)
-        end = new Date()        
-        console.log(start.getDate() - end.getDate())
-        this.range.setValue({ start: start, end: end })
+        end = new Date()
       }
+      if (end - start > 28425600000) {
+        end = new Date(this.firstDate)
+        end.setDate(end.getDate() + 335)
+      }
+      this.range.setValue({ start: start, end: end })
       this.groupByMonth()
       this.initializeByMonth(start, end)
     }
+    else if (this.selectedTimeRangeType = "yearly") {
+      if (!start && !end) {
+        start = new Date(this.firstDate)
+        end = new Date()
+      }
+      this.range.setValue({ start: start, end: end })
+      this.groupByYear()
+      this.initializeByYear(start, end)
+    }
     this.showRows()
- 
+
   }
 
   groupByDate(bookings) {
     let dates = []
+    let datesData = {}
     bookings = bookings.map(booking => {
       const date = new Date(booking.createdAt).toDateString()
       if (!this.firstDate) this.firstDate = date
-      if (!dates.includes(date)) dates.push(date)
+      if (!dates.includes(date)) {
+        dates.push(date)
+        datesData[date] = { date: date, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+      }
       booking.createdAt = date
       return booking
     });
-    let datesData = {}
-    dates.forEach(date => { datesData[date] = { date: date, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 } })
     bookings.forEach(booking => {
       if (booking.status == "Unfinished") {
         datesData[booking.createdAt].unfinished += 1
-        this.highestNum = datesData[booking.createdAt].unfinished > this.highestNum ? datesData[booking.createdAt].unfinished : this.highestNum
+        this.getHighestNum(datesData[booking.createdAt].unfinished)
       }
       else if (booking.status == "Cancelled") {
         datesData[booking.createdAt].cancelled += 1
-        this.highestNum = datesData[booking.createdAt].cancelled > this.highestNum ? datesData[booking.createdAt].cancelled : this.highestNum
+        this.getHighestNum(datesData[booking.createdAt].cancelled)
       }
       else {
         datesData[booking.createdAt].submitted += 1
-        this.highestNum = datesData[booking.createdAt].submitted > this.highestNum ? datesData[booking.createdAt].submitted : this.highestNum
+        this.getHighestNum(datesData[booking.createdAt].submitted)
       }
     });
     this.dates = Object.values(datesData)
     this.allDates = Object.values(datesData)
-    this.setGraph()
+  }
+
+  getHighestNum(num) {
+    this.highestNum = num > this.highestNum ? num : this.highestNum
   }
 
   initializeByDay(startDate, endDate) {
@@ -173,20 +154,26 @@ export class PageStatsComponent implements OnInit {
 
   groupByMonth() {
     let months = []
+    let monthsData = {}
     this.allDates.forEach(date => {
       const d = new Date(date.date)
-      const ym = d.getFullYear() + " " + this.months[d.getMonth()]
-      if (!months.includes(ym)) months.push(ym)
-
+      const ym = this.months[d.getMonth()] + " " + d.getFullYear()
+      if (!months.includes(ym)) {
+        months.push(ym)
+        monthsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+      }
     })
-    let monthsData = {}
-    months.forEach(m => monthsData[m] = { date: m, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 })
     this.allDates.forEach(date => {
       const bd = new Date(date.date)
-      const yearAndMonth = bd.getFullYear() + " " + this.months[bd.getMonth()]
+      const yearAndMonth = this.months[bd.getMonth()] + " " + bd.getFullYear()
       monthsData[yearAndMonth].submitted += date.submitted
+      this.getHighestNum(monthsData[yearAndMonth].submitted)
+
       monthsData[yearAndMonth].cancelled += date.cancelled
+      this.getHighestNum(monthsData[yearAndMonth].cancelled)
+
       monthsData[yearAndMonth].unfinished += date.unfinished
+      this.getHighestNum(monthsData[yearAndMonth].unfinished)
     });
     console.log(monthsData)
     // this.dates = Object.values(monthsData)
@@ -194,45 +181,80 @@ export class PageStatsComponent implements OnInit {
 
   }
 
+  groupByYear() {
+    let years = []
+    let yearsData = {}
+    Object.values(this.allDates).forEach((date: any) => {
+      const d = new Date(date.date)
+      const ym = d.getFullYear() + ""
+      if (!years.includes(ym)) {
+        years.push(ym)
+        yearsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+      }
+    })
+    Object.values(this.allDates).forEach((date: any) => {
+      const bd = new Date(date.date)
+      const yearAndMonth = bd.getFullYear() + ""
+      yearsData[yearAndMonth].submitted += date.submitted
+      this.getHighestNum(yearsData[yearAndMonth].submitted)
+
+      yearsData[yearAndMonth].cancelled += date.cancelled
+      this.getHighestNum(yearsData[yearAndMonth].cancelled)
+
+      yearsData[yearAndMonth].unfinished += date.unfinished
+      this.getHighestNum(yearsData[yearAndMonth].unfinished)
+    });
+    console.log(yearsData)
+    // this.dates = Object.values(yearsData)
+    this.allYears = Object.values(yearsData)
+
+  }
+
   initializeByMonth(startDate, endDate) {
     console.log(startDate, endDate)
     let td = startDate
     let datesData = {}
-    let ym = td.getFullYear() + " " + this.months[td.getMonth()]
+    let ym = this.months[td.getMonth()] + " " + td.getFullYear()
     datesData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
     while (td < endDate) {
       td.setDate(td.getDate() + 1)
-      let ym2 = td.getFullYear() + " " + this.months[td.getMonth()]
+      let ym2 = this.months[td.getMonth()] + " " + td.getFullYear()
       datesData[ym2] = { date: ym2, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
     }
     this.allMonths.forEach(date => {
       if (datesData[date.date]) {
         datesData[date.date] = date
-        console.log("----------", datesData[date.date])
-      } else {
-        console.log('not matched: ', date)
       }
     })
     this.dates = Object.values(datesData)
-    console.log(datesData)
-    console.log("all months: ", this.allMonths)
+
   }
 
-  addRow() {
-    const nums = new Array(this.highestNum += 5)
-    this.rows = []
-    for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
-    this.showRows()
+  initializeByYear(startDate, endDate) {
+    console.log(startDate, endDate)
+    let td = startDate
+    let datesData = {}
+    let ym = td.getFullYear()
+    datesData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+    while (td < endDate) {
+      td.setDate(td.getDate() + 1)
+      let ym2 = td.getFullYear()
+      datesData[ym2] = { date: ym2, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+    }
+    this.allYears.forEach(date => {
+      if (datesData[date.date]) {
+        datesData[date.date] = date
+      }
+    })
+    this.dates = Object.values(datesData)
+
   }
 
-  minusRow() {
-    const nums = new Array(this.highestNum -= 5)
-    this.rows = []
-    for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
-    this.showRows()
-  }
 
   showRows() {
+    this.rows = []
+    const nums = new Array(this.highestNum + 1)
+    for (let i = 0; i < nums.length; i++) { this.rows.push(i) }
     if (this.rows.length > 20) this.rowNum = 5
     if (this.rows.length > 40) this.rowNum = 10
     if (this.rows.length > 100) {
