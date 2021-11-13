@@ -73,6 +73,14 @@ export class PageStatsComponent implements OnInit {
         end.setDate(end.getDate() + 20)
         this.range.setValue({ start: start, end: end })
       }
+      if (end - start > 7689600000) {
+        alert("Maximum number of days is 90.")
+        start = new Date(this.firstDate)
+        end = new Date(this.firstDate)
+        end.setDate(end.getDate() + 20)
+        this.range.setValue({ start: start, end: end })
+      } 
+      console.log(end-start)
       this.groupByDate(this.allBookings)
       this.initializeByDay(start, end)
     } else if (this.selectedTimeRangeType == "monthly") {
