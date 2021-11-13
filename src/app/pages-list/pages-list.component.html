@@ -70,5 +70,9 @@
       <td class="cancelBookingsTotal">{{page.cancelled}}</td>
       <td class="visitsTotal">{{page.visits}}</td>
     </tr>
+   
   </table>
+  <div *ngIf="loading" class="loading">
+    Loading...
+  </div>
 </div>

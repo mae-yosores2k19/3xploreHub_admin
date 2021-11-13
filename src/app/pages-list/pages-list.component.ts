@@ -82,6 +82,7 @@ export class PagesListComponent implements OnInit {
   categories = [this.all]
   selectedCategory: string = 'all'
   pages: PageColumnData[]
+  loading = true
   types = { tourist_spot: "Tourist Spot", service: "Service" }
   constructor(public router: Router, public adminService: AdminService) { }
 
@@ -144,6 +145,7 @@ export class PagesListComponent implements OnInit {
 
   getPages() {
     this.adminService.getPagesList("Online").subscribe((data: Page[]) => {
+      this.loading = false
       this.pages = data.map(page => {
         let pageColData: PageColumnData = {_id: page._id, visits: page.visits, submitted: 0, cancelled: 0, unfinished: 0, bookings: page.bookings, bannerPhoto: page.components[0].data[0].url, creator: page.creator, title: "", location: { barangay: "", municipality: "", city: "" }, category: "", createdAt: page.createdAt, pageType: page.pageType }
         page.components.forEach(component => {

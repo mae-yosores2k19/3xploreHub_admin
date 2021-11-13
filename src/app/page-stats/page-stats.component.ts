@@ -26,6 +26,8 @@ export class PageStatsComponent implements OnInit {
   allDates = []
   allMonths = []
   allYears = []
+  loading = true
+  settingChart = false
 
   range = new FormGroup({
     start: new FormControl(),
@@ -45,6 +47,7 @@ export class PageStatsComponent implements OnInit {
     this.pageId = this.route.snapshot.paramMap.get('pageId');
 
     this.adminService.getPageBookings(this.pageId).subscribe((bookings: any[]) => {
+      this.loading = false
       this.allBookings = bookings
       if (bookings.length > 0) {
 
@@ -64,49 +67,75 @@ export class PageStatsComponent implements OnInit {
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
   setGraph(start = null, end = null) {
-    this.highestNum = 0
-    this.rows = []
-    if (this.selectedTimeRangeType == "daily") {
-      if (!start && !end) {
-        start = new Date(this.firstDate)
-        end = new Date(this.firstDate)
-        end.setDate(end.getDate() + 20)
-        this.range.setValue({ start: start, end: end })
-      }
-      if (end - start > 7689600000) {
-        alert("Maximum number of days is 90.")
-        start = new Date(this.firstDate)
-        end = new Date(this.firstDate)
-        end.setDate(end.getDate() + 20)
-        this.range.setValue({ start: start, end: end })
-      } 
-      console.log(end-start)
-      this.groupByDate(this.allBookings)
-      this.initializeByDay(start, end)
-    } else if (this.selectedTimeRangeType == "monthly") {
-      if (!start && !end) {
-        start = new Date(this.firstDate)
-        end = new Date()
-      }
-      if (end - start > 28425600000) {
-        end = new Date(this.firstDate)
-        end.setDate(end.getDate() + 335)
-      }
-      this.range.setValue({ start: start, end: end })
-      this.groupByMonth()
-      this.initializeByMonth(start, end)
-    }
-    else if (this.selectedTimeRangeType = "yearly") {
-      if (!start && !end) {
-        start = new Date(this.firstDate)
-        end = new Date()
-      }
-      this.range.setValue({ start: start, end: end })
-      this.groupByYear()
-      this.initializeByYear(start, end)
-    }
-    this.showRows()
+    this.settingChart = true
+    setTimeout(() => {
 
+      this.highestNum = 0
+      this.rows = []
+      if (this.selectedTimeRangeType == "daily") {
+        if (!start && !end) {
+          let [startDate, endDate] = this.startAndEndForDaily()
+          start = startDate
+          end = endDate
+
+        }
+        if (end - start > 7689600000) {
+          alert("The maximum number of days is 90.")
+          let [startDate, endDate] = this.startAndEndForDaily()
+          start = startDate
+          end = endDate
+        }
+        this.groupByDate(this.allBookings)
+        this.initializeByDay(start, end)
+      } else if (this.selectedTimeRangeType == "monthly") {
+        console.log(end - start)
+        if (!start && !end) {
+          let [startDate, endDate] = this.startAndEndForMonthly()
+          start = startDate
+          end = endDate
+        }
+        if (end - start > 156816000000) {
+          alert("The maximum number of months is 60")
+          let [startDate, endDate] = this.startAndEndForMonthly()
+          start = startDate
+          end = endDate
+        }
+
+        this.range.setValue({ start: start, end: end })
+        this.groupByMonth()
+        this.initializeByMonth(start, end)
+      }
+      else if (this.selectedTimeRangeType = "yearly") {
+        if (!start && !end) {
+          start = new Date(this.firstDate)
+          end = new Date()
+        }
+        this.range.setValue({ start: start, end: end })
+        this.groupByYear()
+        this.initializeByYear(start, end)
+      }
+      this.showRows()
+      this.settingChart = false
+    }, 300);
+  }
+
+  startAndEndForDaily() {
+    let start = new Date(this.firstDate)
+    let end = new Date(this.firstDate)
+    end.setDate(end.getDate() + 20)
+    this.range.setValue({ start: start, end: end })
+    return [start, end]
+  }
+
+  startAndEndForMonthly() {
+    let start = new Date(this.firstDate)
+    let end = new Date()
+
+    if ((end as any) - (start as any) > 28425600000) {
+      end = new Date(this.firstDate)
+      end.setDate(end.getDate() + 335)
+    }
+    return [start, end]
   }
 
   groupByDate(bookings) {

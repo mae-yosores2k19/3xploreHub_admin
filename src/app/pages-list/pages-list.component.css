@@ -19,3 +19,4 @@ table th span { vertical-align: middle; font-size: 18px;}
 .unfinished {font-weight: bold; color: rgb(189, 113, 0)  !important; font-size: 16px !important; text-align: center !important;}
 .appBtn {float: right; padding: 8px 20px;; border: none; background-color: dodgerblue; color: white; border-radius: 5px; margin: 10px 0; }
 .settingsCol {display: inline; margin-right:20px;}
+.loading {background-color: rgb(246, 250, 253); text-align: left; padding: 25px; font-size: 18px; border: 1px solid rgb(223, 228, 236)}

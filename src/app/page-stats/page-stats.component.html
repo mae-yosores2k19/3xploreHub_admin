@@ -52,7 +52,17 @@
 </div>
 
 <div class="chart">
-    <div class="noData" *ngIf="allBookings.length == 0">No Data</div>
+    <div class="noData" *ngIf="allBookings.length == 0">
+        <span *ngIf="loading">Loading...</span>
+        <span *ngIf="!loading">
+            No Data
+        </span>
+        
+    </div>
+
+    <div class="loading" *ngIf="settingChart">
+        Loading...
+    </div>
     <table class="lines">
         <tr *ngFor="let row of rows.reverse(); index as i">
             <td *ngIf="row % rowNum == 0 || 10 >= rows.length">
