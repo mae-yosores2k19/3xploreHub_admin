@@ -52,7 +52,7 @@
       <th style="text-align:center">Cancelled</th>
       <th style="text-align:center">Viewed by tourists</th>
     </tr>
-    <tr *ngFor="let page of pages; let i = index" (click)="viewPageStats(page._id)">
+    <tr *ngFor="let page of pages; let i = index" (click)="viewPageStats(page._id, page.title)">
       <td>
         <div class="number">{{i+1}}</div>
         <div class="bannerPhoto" [ngStyle]="{'background-image': 'url('+page.bannerPhoto+')'}"></div>

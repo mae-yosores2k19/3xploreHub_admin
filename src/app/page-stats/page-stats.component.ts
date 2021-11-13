@@ -28,30 +28,37 @@ export class PageStatsComponent implements OnInit {
   allYears = []
   loading = true
   settingChart = false
-
+  submitted = 0
+  cancelled = 0
+  unfinished = 0
+  pageTitle = ""
+  dateOptions = []
+  optionType = "month"
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
   });
-
+  startDate = null
+  endDate = null
 
   timeRange: SelectValue[] = [
-    { value: 'daily', viewValue: 'Daily' },
-    { value: 'monthly', viewValue: 'Monthly' },
-    { value: 'yearly', viewValue: 'Yearly' }
+    { value: 'daily', viewValue: 'Day' },
+    { value: 'monthly', viewValue: 'Month' },
+    { value: 'yearly', viewValue: 'Year' }
   ];
 
   constructor(private route: ActivatedRoute, public router: Router, public adminService: AdminService) { }
 
   ngOnInit(): void {
     this.pageId = this.route.snapshot.paramMap.get('pageId');
-
+    this.pageTitle = this.route.snapshot.paramMap.get("pageTitle")
     this.adminService.getPageBookings(this.pageId).subscribe((bookings: any[]) => {
       this.loading = false
       this.allBookings = bookings
       if (bookings.length > 0) {
 
         this.groupByDate(bookings)
+        this.getMonthOptions()
         this.setGraph()
         this.showRows()
       }
@@ -88,7 +95,8 @@ export class PageStatsComponent implements OnInit {
         this.groupByDate(this.allBookings)
         this.initializeByDay(start, end)
       } else if (this.selectedTimeRangeType == "monthly") {
-        console.log(end - start)
+        if (this.optionType != "month") this.getMonthOptions()
+
         if (!start && !end) {
           let [startDate, endDate] = this.startAndEndForMonthly()
           start = startDate
@@ -101,16 +109,19 @@ export class PageStatsComponent implements OnInit {
           end = endDate
         }
 
-        this.range.setValue({ start: start, end: end })
+        this.startDate = this.months[start.getMonth()] + " " + start.getFullYear()
+        this.endDate = this.months[end.getMonth()] + " " + end.getFullYear()
         this.groupByMonth()
         this.initializeByMonth(start, end)
       }
       else if (this.selectedTimeRangeType = "yearly") {
+        if (this.optionType != "year") this.getYearOptions()
         if (!start && !end) {
           start = new Date(this.firstDate)
           end = new Date()
         }
-        this.range.setValue({ start: start, end: end })
+        this.startDate = start.getFullYear()
+        this.endDate = end.getFullYear()
         this.groupByYear()
         this.initializeByYear(start, end)
       }
@@ -174,6 +185,7 @@ export class PageStatsComponent implements OnInit {
   }
 
   initializeByDay(startDate, endDate) {
+    this.resetBookingData()
     let td = startDate
     let datesData = {}
     datesData[td.toDateString()] = { date: td.toDateString(), submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
@@ -184,6 +196,7 @@ export class PageStatsComponent implements OnInit {
     this.allDates.forEach(date => {
       if (datesData[date.date]) {
         datesData[date.date] = date
+        this.setBookingData(date)
       }
     })
     this.dates = Object.values(datesData)
@@ -212,10 +225,47 @@ export class PageStatsComponent implements OnInit {
       monthsData[yearAndMonth].unfinished += date.unfinished
       this.getHighestNum(monthsData[yearAndMonth].unfinished)
     });
-    console.log(monthsData)
     // this.dates = Object.values(monthsData)
     this.allMonths = Object.values(monthsData)
+  }
 
+  getMonthOptions() {
+    this.optionType = "month"
+    if (this.allDates.length > 0) {
+      let months = []
+      let start = new Date(this.allDates[0].date)
+      let end = new Date()
+      console.log(start, end)
+      while (start <= end) {
+        const month = this.months[start.getMonth()] + " " + start.getFullYear()
+        if (!months.includes(month)) {
+          months.push(month)
+        }
+        start.setDate(start.getDate() + 1)
+      }
+      months = months.map(m => { return { value: m, viewValue: m } })
+      console.log(months)
+      this.dateOptions = months
+    }
+  }
+  getYearOptions() {
+    this.optionType = "year"
+    if (this.allDates.length > 0) {
+      let months = []
+      let start = new Date(this.allDates[0].date)
+      let end = new Date()
+      console.log(start, end)
+      while (start <= end) {
+        const month = start.getFullYear()
+        if (!months.includes(month)) {
+          months.push(month)
+        }
+        start.setDate(start.getDate() + 1)
+      }
+      months = months.map(m => { return { value: m, viewValue: m } })
+      console.log(months)
+      this.dateOptions = months
+    }
   }
 
   groupByYear() {
@@ -223,7 +273,7 @@ export class PageStatsComponent implements OnInit {
     let yearsData = {}
     Object.values(this.allDates).forEach((date: any) => {
       const d = new Date(date.date)
-      const ym = d.getFullYear() + ""
+      const ym = d.getFullYear()
       if (!years.includes(ym)) {
         years.push(ym)
         yearsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
@@ -231,7 +281,7 @@ export class PageStatsComponent implements OnInit {
     })
     Object.values(this.allDates).forEach((date: any) => {
       const bd = new Date(date.date)
-      const yearAndMonth = bd.getFullYear() + ""
+      const yearAndMonth = bd.getFullYear()
       yearsData[yearAndMonth].submitted += date.submitted
       this.getHighestNum(yearsData[yearAndMonth].submitted)
 
@@ -241,14 +291,13 @@ export class PageStatsComponent implements OnInit {
       yearsData[yearAndMonth].unfinished += date.unfinished
       this.getHighestNum(yearsData[yearAndMonth].unfinished)
     });
-    console.log(yearsData)
     // this.dates = Object.values(yearsData)
     this.allYears = Object.values(yearsData)
 
   }
 
   initializeByMonth(startDate, endDate) {
-    console.log(startDate, endDate)
+    this.resetBookingData()
     let td = startDate
     let datesData = {}
     let ym = this.months[td.getMonth()] + " " + td.getFullYear()
@@ -261,6 +310,7 @@ export class PageStatsComponent implements OnInit {
     this.allMonths.forEach(date => {
       if (datesData[date.date]) {
         datesData[date.date] = date
+        this.setBookingData(date)
       }
     })
     this.dates = Object.values(datesData)
@@ -268,7 +318,7 @@ export class PageStatsComponent implements OnInit {
   }
 
   initializeByYear(startDate, endDate) {
-    console.log(startDate, endDate)
+    this.resetBookingData()
     let td = startDate
     let datesData = {}
     let ym = td.getFullYear()
@@ -281,10 +331,54 @@ export class PageStatsComponent implements OnInit {
     this.allYears.forEach(date => {
       if (datesData[date.date]) {
         datesData[date.date] = date
+        this.setBookingData(date)
       }
     })
     this.dates = Object.values(datesData)
 
+  }
+
+  dateChange() {
+    if (this.optionType == "month") {
+      if (this.startDate && this.endDate) {
+        const [sMonth, sYear] = this.startDate.split(" ")
+        const sDate = new Date(sYear, this.months.indexOf(sMonth), 1)
+        const [eMonth, eYear] = this.endDate.split(" ")
+        const eDate = new Date(eYear, this.months.indexOf(eMonth), 1)
+        if (eDate >= sDate) {
+          this.setGraph(sDate, eDate)
+        } else {
+          alert("Invalid date range!")
+          this.startDate = this.dateOptions[0].value
+          this.endDate = this.dateOptions[this.dateOptions.length - 1].value
+        }
+      }
+    } else {
+      if (this.startDate && this.endDate) {
+        const sDate = new Date(this.startDate, 11, 1)
+        const eDate = new Date(this.endDate, 11, 1)
+        console.log(sDate, eDate)
+        if (eDate >= sDate) {
+          this.setGraph(sDate, eDate)
+        } else {
+          alert("Invalid date range!")
+          this.startDate = this.dateOptions[0].value
+          this.endDate = this.dateOptions[this.dateOptions.length - 1].value
+        }
+      }
+    }
+  }
+
+  resetBookingData() {
+    this.submitted = 0
+    this.cancelled = 0
+    this.unfinished = 0
+  }
+
+  setBookingData(date) {
+    this.submitted += date.submitted
+    this.cancelled += date.cancelled
+    this.unfinished += date.unfinished
   }
 
 

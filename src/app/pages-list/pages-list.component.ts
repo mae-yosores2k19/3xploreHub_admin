@@ -171,8 +171,8 @@ export class PagesListComponent implements OnInit {
     })
   }
 
-  viewPageStats(_id) {
-    this.router.navigate(["/admin/reports/pageStats", _id])
+  viewPageStats(_id, pageTitle) {
+    this.router.navigate([`/admin/reports/pageStats`, _id, pageTitle])
   }
 
 }

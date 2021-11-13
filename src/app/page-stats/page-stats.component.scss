@@ -45,7 +45,7 @@ table.data tr {padding: 0; margin: 0}
 .cancelledLg::before { background-color: rgb(240, 13, 51);}
 .visitedLg::before { background-color: rgb(200, 56, 219);}
 .dateRange {display: flex; align-items: center; padding: 8px 0;
-    .inputLabel {margin: 0 10px 0 0 !important; color:rgb(68, 106, 141); font-size: 18px;}
+    .inputLabel {margin: 0 10px 0 0 !important; color:rgb(68, 106, 141); font-size: 15px;}
     .dateInput {margin-right: 20px; padding: 5px 10px;border: none; border-bottom: 1px solid rgb(73, 78, 83);}
 }
 .totals { font-size: 17px; color: rgb(67, 105, 139);}

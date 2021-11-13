@@ -32,7 +32,7 @@ const routes: Routes = [
       { path: 'reports', component: ReportsComponent, 
         children: [
           { path: '', component: PagesListComponent },
-          { path: 'pageStats/:pageId', component: PageStatsComponent },
+          { path: 'pageStats/:pageId/:pageTitle', component: PageStatsComponent },
           { path: 'overallStats', component: OverallStatsComponent },
         ], canActivate: [AuthGuard],
       },
