@@ -166,5 +166,10 @@ export class AdminService {
     return this.http.get(`${apiUrl}/admin/getPageBookings/${pageId}`, { headers: { authorization: `bearer ${token}` } })
   }
 
+  getAllExplorehubBooking() {
+    const { apiUrl, token} = this.getApiUrlAndToken()
+    return this.http.get(`${apiUrl}/admin/getAllExplorehubBooking/`, { headers: { authorization: `bearer ${token}` } })
+  }
+
 }
 

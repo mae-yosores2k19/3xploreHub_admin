@@ -92,6 +92,8 @@ export class PageStatsComponent implements OnInit {
           start = startDate
           end = endDate
         }
+        this.range.setValue({ start: start, end: end })
+
         this.groupByDate(this.allBookings)
         this.initializeByDay(start, end)
       } else if (this.selectedTimeRangeType == "monthly") {
@@ -133,8 +135,7 @@ export class PageStatsComponent implements OnInit {
   startAndEndForDaily() {
     let start = new Date(this.firstDate)
     let end = new Date(this.firstDate)
-    end.setDate(end.getDate() + 20)
-    this.range.setValue({ start: start, end: end })
+    end.setDate(end.getDate() + 19)
     return [start, end]
   }
 
@@ -157,12 +158,13 @@ export class PageStatsComponent implements OnInit {
       if (!this.firstDate) this.firstDate = date
       if (!dates.includes(date)) {
         dates.push(date)
-        datesData[date] = { date: date, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+        datesData[date] = { date: date, submitted: 0, unfinished: 0, cancelled: 0, visited: 0, data: [] }
       }
       booking.createdAt = date
       return booking
     });
     bookings.forEach(booking => {
+      datesData[booking.createdAt].data.push(booking)
       if (booking.status == "Unfinished") {
         datesData[booking.createdAt].unfinished += 1
         this.getHighestNum(datesData[booking.createdAt].unfinished)
@@ -178,6 +180,7 @@ export class PageStatsComponent implements OnInit {
     });
     this.dates = Object.values(datesData)
     this.allDates = Object.values(datesData)
+    console.log("all dates: ", this.allDates)
   }
 
   getHighestNum(num) {
@@ -210,12 +213,13 @@ export class PageStatsComponent implements OnInit {
       const ym = this.months[d.getMonth()] + " " + d.getFullYear()
       if (!months.includes(ym)) {
         months.push(ym)
-        monthsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+        monthsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0, data: [] }
       }
     })
     this.allDates.forEach(date => {
       const bd = new Date(date.date)
       const yearAndMonth = this.months[bd.getMonth()] + " " + bd.getFullYear()
+      monthsData[yearAndMonth].data = [...monthsData[yearAndMonth].data, ...date.data]
       monthsData[yearAndMonth].submitted += date.submitted
       this.getHighestNum(monthsData[yearAndMonth].submitted)
 
@@ -227,6 +231,7 @@ export class PageStatsComponent implements OnInit {
     });
     // this.dates = Object.values(monthsData)
     this.allMonths = Object.values(monthsData)
+    console.log(this.allMonths)
   }
 
   getMonthOptions() {
@@ -235,7 +240,6 @@ export class PageStatsComponent implements OnInit {
       let months = []
       let start = new Date(this.allDates[0].date)
       let end = new Date()
-      console.log(start, end)
       while (start <= end) {
         const month = this.months[start.getMonth()] + " " + start.getFullYear()
         if (!months.includes(month)) {
@@ -244,7 +248,6 @@ export class PageStatsComponent implements OnInit {
         start.setDate(start.getDate() + 1)
       }
       months = months.map(m => { return { value: m, viewValue: m } })
-      console.log(months)
       this.dateOptions = months
     }
   }
@@ -254,7 +257,6 @@ export class PageStatsComponent implements OnInit {
       let months = []
       let start = new Date(this.allDates[0].date)
       let end = new Date()
-      console.log(start, end)
       while (start <= end) {
         const month = start.getFullYear()
         if (!months.includes(month)) {
@@ -263,7 +265,6 @@ export class PageStatsComponent implements OnInit {
         start.setDate(start.getDate() + 1)
       }
       months = months.map(m => { return { value: m, viewValue: m } })
-      console.log(months)
       this.dateOptions = months
     }
   }
@@ -276,12 +277,13 @@ export class PageStatsComponent implements OnInit {
       const ym = d.getFullYear()
       if (!years.includes(ym)) {
         years.push(ym)
-        yearsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0 }
+        yearsData[ym] = { date: ym, submitted: 0, unfinished: 0, cancelled: 0, visited: 0, data: []}
       }
     })
     Object.values(this.allDates).forEach((date: any) => {
       const bd = new Date(date.date)
       const yearAndMonth = bd.getFullYear()
+      yearsData[yearAndMonth].data = [...yearsData[yearAndMonth].data, ...date.data]
       yearsData[yearAndMonth].submitted += date.submitted
       this.getHighestNum(yearsData[yearAndMonth].submitted)
 
@@ -293,6 +295,7 @@ export class PageStatsComponent implements OnInit {
     });
     // this.dates = Object.values(yearsData)
     this.allYears = Object.values(yearsData)
+    console.log(this.allYears)
 
   }
 
@@ -314,7 +317,6 @@ export class PageStatsComponent implements OnInit {
       }
     })
     this.dates = Object.values(datesData)
-
   }
 
   initializeByYear(startDate, endDate) {
@@ -357,7 +359,6 @@ export class PageStatsComponent implements OnInit {
       if (this.startDate && this.endDate) {
         const sDate = new Date(this.startDate, 11, 1)
         const eDate = new Date(this.endDate, 11, 1)
-        console.log(sDate, eDate)
         if (eDate >= sDate) {
           this.setGraph(sDate, eDate)
         } else {
