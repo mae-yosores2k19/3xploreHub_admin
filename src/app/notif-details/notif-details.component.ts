@@ -134,13 +134,13 @@ export class NotifDetailsComponent implements OnInit {
       pageCreator: page.creator._id,
       subject: page._id,
       type: "page-provider",
-      status: "Online",
-      message: `Your page <b>${pageName}</b> is now online`,
+      status: "Processing",
+      message: `Your page <b>${pageName}</b> was approved`,
     }
     this.adminService.setPageStatus(notif).subscribe((data) => {
       this.adminService.updatePendingPagesCount.emit()
-      this.adminService.notify({ user: this.adminService.user, pageId: page._id, type: "page-provider", receiver: [page.creator._id], message: `Your page <b>${pageName}</b> is now online` })
-      this.closeDialog("Online")
+      this.adminService.notify({ user: this.adminService.user, pageId: page._id, type: "page-provider", receiver: [page.creator._id], message: `Your page <b>${pageName}</b> was approved.` })
+      this.closeDialog("Processing")
       this.loading = false
     })
   }
