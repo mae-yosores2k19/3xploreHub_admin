@@ -13,6 +13,7 @@ export class NotifDetailsComponent implements OnInit {
   public modalContainerHeight: number;
   public loading: boolean = false;
   public pagesData: any
+  public clickedPic: string =  null;
   public types = { "date-input": "Date Input", "text-input": "Text Input", "number-input": "Number Input", "choices-input": "Choices Input" }
   public inputType = {
     "date-input": { startDate: "Booking Starting Date", endDate: "Booking End Date", none: "Ordinary Date Input" },

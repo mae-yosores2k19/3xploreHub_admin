@@ -4,7 +4,7 @@
 
             <div *ngFor="let component of data.components">
                 <div *ngIf="component.type == 'photo'" class="pageImage pageField">
-                    <img class="spot" *ngFor="let image of component.data" src="{{ image.url }}" style="width:555px; height:auto">
+                    <img class="spot" *ngFor="let image of component.data" src="{{ image.url }}" style="width:555px; height:auto" (click)="clickedPic = image.url">
                 </div>
                 <div *ngIf="component.type == 'text'" [ngClass]="component.styles" class="pageField">
                     <div [ngClass]="{pageTextComp: component.data.defaultName != 'pageName', 
@@ -66,6 +66,7 @@
                                     <div *ngFor="let component of item.data">
                                         <div *ngIf="component.type == 'photo'" class="itemImage pageField">
                                             <img class="spot" *ngFor="let image of component.data" src="{{ image.url }}"
+                                            (click)="clickedPic = image.url"
                                                 style="width:100%; height:auto">
                                         </div>
                                         <!-- <div class="pagePhoto" [ngStyle]="{'background-image': 'url('+ getPhoto(item.data)+')'}">
@@ -179,7 +180,20 @@
                 </div>
             </div>
 
-
+            <div class="pageDocuments">
+                <div class="documents">
+                    <h3>Business Permit:</h3>
+                    <div class="docPic" (click)="clickedPic = pagesData[0].pageDocuments?.businessPermit"  [ngStyle]="{'background-image': 'url('+ pagesData[0].pageDocuments?.businessPermit+')'}">
+                        {{!pagesData[0].pageDocuments?.businessPermit ? "No business permit submitted": ""}}
+                    </div>
+                </div>
+                <div class="documents">
+                    <h3>Owner Valid ID:</h3>
+                    <div class="docPic" (click)="clickedPic = pagesData[0].pageDocuments?.ownerValidId" [ngStyle]="{'background-image': 'url('+ pagesData[0].pageDocuments?.ownerValidId+')'}">
+                        {{!pagesData[0].pageDocuments?.ownerValidId ? "No valid ID submitted": ""}}
+                    </div>
+                </div>
+            </div>
 
         </div>
         <!-- <div class="modalFooter" *ngIf="pagesData[0].status === 'Pending'">
@@ -192,6 +206,7 @@
                 </button>
             </div>
         </div> -->
+        
         <div class="modalFooter" *ngIf="pagesData[0].status === 'Pending'">
             <div class="modal-footer" align="start" *ngFor="let onlineItem of pagesData">
                 <button mat-button mat-dialog-close id="modal-cancel-button"> <span class="material-icons">keyboard_arrow_left</span>Close</button>
@@ -228,6 +243,12 @@
         </div>
     </mat-tab>
 </mat-tab-group>
+<div class="viewPic" *ngIf="clickedPic" (click)="clickedPic = null">
+
+    <div class="pic" [ngStyle]="{'background-image': 'url('+ clickedPic +')'}">
+        <div class="closePic" (click)="clickedPic = null"><span class="material-icons">close</span></div>
+    </div>
+</div>
 <div *ngIf="loading" class="loadingOverlay">
     <div class="loader"></div>
 </div>
