@@ -29,7 +29,7 @@ export class NewNotificationComponent implements OnInit {
   @Output() searchBooking = new EventEmitter<String>();
   @ViewChild(MatPaginator) paginator: MatPaginator
 
-  displayedColumns: string[] = ['id', 'fullName', 'location', 'dateProcess', 'timeLeft'];
+  displayedColumns: string[] = ['id', 'fullName', 'location', 'dateProcess'];
   dataSource: MatTableDataSource<any>;
   constructor(public dialog: MatDialog,
     private adminService: AdminService, public route: ActivatedRoute,) {

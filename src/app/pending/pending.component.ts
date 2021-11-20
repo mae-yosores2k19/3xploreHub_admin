@@ -17,7 +17,7 @@ export class PendingComponent implements OnInit {
   public show = true;
   bookingAccount: any[] = []
   public interval: any;
-  displayedColumns: string[] = ['id', 'fullName', 'location', 'dateProcess', 'timeLeft'];
+  displayedColumns: string[] = ['id', 'fullName', 'location', 'dateProcess'];
   dataSource: MatTableDataSource<any>;
   constructor(public dialog: MatDialog,
     private adminService: AdminService, public route: ActivatedRoute,) {
